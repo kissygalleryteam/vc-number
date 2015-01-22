@@ -8,6 +8,10 @@
         .line{
             margin: 35px 0;
         }
+        .line label{
+            display:block;
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 <body>
@@ -15,19 +19,24 @@
 <div class="container">
     <div id="content">
         <div class="line">
-            <input type="text" value="40.00" class="vc-number" data-range="2.00" data-max="9999999.00" data-min="1" data-hasdecimal="true">
+            <label for="J_1">带小数点</label>
+            <input type="text" value="40.00" class="vc-number" data-range="2.00" data-max="9999999.00" data-min="1" id="J_1">
         </div>
         <div class="line">
-            <input type="text" value="60" class="vc-number" data-range="12.00" data-max="88.00" data-min="10">
+            <label for="J_2">不带小数点</label>
+            <input type="text" value="60" class="vc-number" data-range="12.00" data-max="88.00" data-min="10" data-hasdecimal="false" id="J_2">
         </div>
         <div class="line">
-            <input type="text" value="3" class="vc-number-slide">
+            <label for="J_3">滑动效果</label>
+            <input type="text" value="60" class="vc-number-slide" id="J_3">
         </div>
         <div class="line">
-            <input type="text" value="60" class="vc-number-ch" >
+            <label for="J_4">中文提示1</label>
+            <input type="text" value="60.00" class="vc-number-ch" id="J_4">
         </div>
         <div class="line">
-            <input type="text" value="60" class="vc-number-ch2" >
+            <label for="J_4">中文提示2</label>
+            <input type="text" value="60" class="vc-number-ch2" id="J_5">
         </div>
     </div>
 </div>
