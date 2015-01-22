@@ -9,11 +9,11 @@ KISSY.config('requires',{
         "node",
         "base"
     ],
-    "kg/vc-number/1.0.0/plugins/slide/slide": [
+    "kg/vc-number/1.0.0/plugins/amountInWords/amountInWords": [
         "node",
         "base"
     ],
-    "kg/vc-number/1.0.0/plugins/amountInWords/amountInWords": [
+    "kg/vc-number/1.0.0/plugins/slide/slide": [
         "node",
         "base"
     ]

@@ -5,6 +5,11 @@ select,
 textarea {
   font-family: tahoma, arial, 'Hiragino Sans GB', SimSun, sans-serif;
 }
+.vc-plus-minus-operation {
+  position: relative;
+  display: inline-block;
+  height: 38px;
+}
 .vc-plus-minus-operation a {
   text-decoration: none;
 }
@@ -12,6 +17,7 @@ textarea {
   margin: 0;
   padding: 0;
   height: 36px;
+  line-height: 36px;
   text-align: center;
   border: 1px solid #ddd;
   vertical-align: middle;
@@ -32,6 +38,8 @@ textarea {
   background-color: #f6f6f6;
   color: #333;
   text-shadow: 0 1px 0 #f3f3f3;
+  position: relative;
+  z-index: 10;
 }
 .vc-plus-minus-operation .vc-number-sign:hover {
   background-color: #ededed;
@@ -42,8 +50,13 @@ textarea {
 .vc-plus-minus-operation .vc-number-disabled {
   cursor: not-allowed;
 }
-.vc-plus-minus-operation .vc-number-disabled span {
-  color: #ccc;
+.vc-plus-minus-operation .vc-number-disabled .vc-number-minus-sign {
+  color: #cccccc;
+  border-color: #cccccc transparent transparent transparent;
+}
+.vc-plus-minus-operation .vc-number-disabled .vc-number-plus-sign {
+  color: #cccccc;
+  border-color: transparent transparent #cccccc transparent;
 }
 .vc-plus-minus-operation .vc-number-disabled:hover {
   background-color: #f6f6f6;
