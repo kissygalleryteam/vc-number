@@ -146,8 +146,7 @@ module.exports =  Base.extend({
         var val = self.toCnNumber($target.val());
         getSpan.replaceClass(self.get('cellMoneyCls'), self.get('cnMoneyCls'));
         getSpan.html(val + '<span class="unit">元</span>');
-        getSpan.width((val).length * 19);
-
+        getSpan.width((val).length * 24);
         getSpan.fadeIn(0.4);
     },
     /**
@@ -171,7 +170,7 @@ module.exports =  Base.extend({
                     re = BB[7] + re;
                     break;
                 case 4:
-                    if (!new RegExp("0{4}\\d{" + (a[0].length - i - 1) + "}$").test(a[0])) re = BB[4] + re;
+                    if (!new RegExp("0{4}\\d{" + (a[0].length - i - 1) + "}$").test(a[0])) {re = BB[4] + re;}
                     break;
                 case 8:
                     re = BB[5] + re;
@@ -179,13 +178,13 @@ module.exports =  Base.extend({
                     k = 0;
                     break;
             }
-            if (k % 4 == 2 && a[0].charAt(i) == "0" && a[0].charAt(i + 2) != "0") re = AA[0] + re;
-            if (a[0].charAt(i) != 0) re = AA[a[0].charAt(i)] + BB[k % 4] + re;
+            if (k % 4 == 2 && a[0].charAt(i) == "0" && a[0].charAt(i + 1) != "0") {re = AA[0] + re;}
+            if (a[0].charAt(i) != 0) {re = AA[a[0].charAt(i)] + BB[k % 4] + re;}
             k++;
         }
         if (a.length > 1) {
             re += BB[6];
-            for (var i = 0; i < a[1].length; i++) re += AA[a[1].charAt(i)];
+            for (var i = 0; i < a[1].length; i++) {re += AA[a[1].charAt(i)];}
         }
 
         return re;
