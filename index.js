@@ -76,7 +76,6 @@ var VcNumber = Base.extend({
                         inputValue -= range;
                     }
                     self._limitRange(inputValue, $target);
-                    self.fire('changing',{input: $target, trigger: $this});
                 };
                 if(e.type == 'keydown' || e.type == 'mousedown'){
                     self.fire('beforeChange',{input: $target, trigger: $this});
@@ -105,7 +104,7 @@ var VcNumber = Base.extend({
         });
 
         $input.on('keydown keyup',function(e){
-            var $target = $(e.currentTarget), inputValue = Number(S.trim($target.val().replace(/\,/g,''))),
+            var $this = $(this), $target = $(e.currentTarget), inputValue = Number(S.trim($target.val().replace(/\,/g,''))),
                 range = Number(S.trim($target.attr('data-range'))) || self.get('range');
             var changeValue = function(){
                 //向上键
@@ -117,17 +116,16 @@ var VcNumber = Base.extend({
                     inputValue -= range;
                 }
                 self._limitRange(inputValue, $target);
-                self.fire('changing',{input: $target, trigger: e.keyCode});
             };
 
             if(e.keyCode === 38 || e.keyCode === 40){
                 if(e.type == 'keydown'){
-                    self.fire('beforeChange',{input: $target, trigger: e.keyCode});
+                    self.fire('beforeChange',{input: $target, trigger: $this});
                     changeValue();
                 }
                 if(e.type == 'keyup'){
                     /*触发change事件*/
-                    self.fire('afterChange',{input: $target, trigger: e.keyCode});
+                    self.fire('afterChange',{input: $target, trigger: $this});
                 }
             }
 
@@ -228,14 +226,14 @@ var VcNumber = Base.extend({
             }
         },
         plusTpl:{
-            value:'<a href="#!/plus" class="{plus} {sign}" role="button"><span class="{plus}-sign">+</span></a>',
+            value:'<a href="#!/plus" class="{plus} {sign}" role="button"><span>+</span></a>',
             getter:function(v){
                 var self = this, cls = self.get('cls');
                 return S.substitute(v,{plus:cls.plus, sign:cls.sign});
             }
         },
         minusTpl:{
-            value: '<a href="#!/minus" class="{minus} {sign}"  role="button"><span class="{minus}-sign">-</span></a>',
+            value: '<a href="#!/minus" class="{minus} {sign}"  role="button"><span>-</span></a>',
             getter:function(v){
                 var self = this, cls = self.get('cls');
                 return S.substitute(v,{minus:cls.minus, sign:cls.sign});

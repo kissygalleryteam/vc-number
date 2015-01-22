@@ -36,7 +36,7 @@ module.exports =  Base.extend({
 
         };
         var handleAfterChange = function (e) {
-            var $target = e.input || $(e.currentTarget);
+            var $target = e.input;
             var val = self.addCommas($target.val());
             $target.val(val);
             var type = self.get('type'), types = self.get('types');
@@ -55,13 +55,11 @@ module.exports =  Base.extend({
 
         vcNumber.on('beforeChange',handleBeforeChange);
         vcNumber.on('afterChange',handleAfterChange);
-        self.get('$target').on('focus',handleAfterChange);
 
         var inputCls = vcNumber.get('cls').init, signCls = vcNumber.get('cls').sign, cnCls = self.get('cls');
         $(document).on('click',function(e){
             var $target = $(e.target);
-            if(!$target.hasClass(inputCls) && !$target.hasClass(cnCls) && !$target.hasClass(signCls)
-                && $target.parent() && !$target.parent().hasClass(signCls) ){
+            if(!$target.hasClass(inputCls) && !$target.hasClass(cnCls) && !$target.hasClass(signCls) && !$target.parent().hasClass(signCls) ){
                 self._hideChineseNumUl();
             }
         });
@@ -145,9 +143,7 @@ module.exports =  Base.extend({
         var getSpan = $target.prev('.'+self.get('cls'));
         var val = self.toCnNumber($target.val());
         getSpan.replaceClass(self.get('cellMoneyCls'), self.get('cnMoneyCls'));
-        getSpan.html(val + '<span class="unit">元</span>');
-        getSpan.width((val).length * 19);
-
+        getSpan.html(val + '元');
         getSpan.fadeIn(0.4);
     },
     /**

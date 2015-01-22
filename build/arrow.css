@@ -30,7 +30,7 @@ textarea {
   text-align: center;
   vertical-align: middle;
   background-color: #f6f6f6;
-  color: #333333;
+  color: #333;
   height: 18px;
   line-height: 18px;
   width: 30px;
@@ -41,36 +41,32 @@ textarea {
   height: 0;
   font-size: 0;
   border-width: 5px;
-  border-color: #333333;
   border-style: solid;
 }
 .vc-plus-minus-operation .vc-number-sign:hover {
   background-color: #ededed;
   border-color: #ddd;
-  color: #333333;
+  color: #333;
 }
 .vc-plus-minus-operation .vc-number-plus {
   right: -30px;
 }
 .vc-plus-minus-operation .vc-number-plus span {
-  border-color: transparent transparent #333333 transparent;
+  border-color: transparent transparent #333 transparent;
 }
 .vc-plus-minus-operation .vc-number-minus {
   right: -30px;
   top: 18px;
 }
 .vc-plus-minus-operation .vc-number-minus span {
-  border-color: #333333 transparent transparent transparent;
+  border-color: #333 transparent transparent transparent;
   margin-top: 5px;
 }
 .vc-plus-minus-operation .vc-number-disabled {
   cursor: not-allowed;
 }
-.vc-plus-minus-operation .vc-number-disabled .vc-number-minus-sign {
-  border-color: #cccccc transparent transparent transparent;
-}
-.vc-plus-minus-operation .vc-number-disabled .vc-number-plus-sign {
-  border-color: transparent transparent #cccccc transparent;
+.vc-plus-minus-operation .vc-number-disabled span {
+  color: #ccc;
 }
 .vc-plus-minus-operation .vc-number-disabled:hover {
   background-color: #f6f6f6;

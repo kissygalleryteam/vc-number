@@ -227,14 +227,14 @@ var VcNumber = Base.extend({
             }
         },
         plusTpl:{
-            value:'<a href="#!/plus" class="{plus} {sign}" role="button"><span class="{plus}-sign">+</span></a>',
+            value:'<a href="#!/plus" class="{plus} {sign}" role="button"><span>+</span></a>',
             getter:function(v){
                 var self = this, cls = self.get('cls');
                 return S.substitute(v,{plus:cls.plus, sign:cls.sign});
             }
         },
         minusTpl:{
-            value: '<a href="#!/minus" class="{minus} {sign}"  role="button"><span class="{minus}-sign">-</span></a>',
+            value: '<a href="#!/minus" class="{minus} {sign}"  role="button"><span>-</span></a>',
             getter:function(v){
                 var self = this, cls = self.get('cls');
                 return S.substitute(v,{minus:cls.minus, sign:cls.sign});
