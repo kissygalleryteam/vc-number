@@ -5,6 +5,8 @@
 @inputFontSize: 20px;
 @arrowWidth: 5px;
 @borderWidth: 1px;
+@color: #333;
+@disableColor: #ccc;
 
 body, button, input, select, textarea{
   font-family: tahoma,arial,'Hiragino Sans GB',SimSun,sans-serif;
@@ -34,7 +36,7 @@ body, button, input, select, textarea{
     text-align: center;
     vertical-align: middle;
     background-color: #f6f6f6;
-    color: #333;
+    color: @color;
     height: @inputHeight/2+1;
     line-height: @inputHeight/2+1;
     width: @width;
@@ -43,36 +45,38 @@ body, button, input, select, textarea{
       width: 0;
       height: 0;
       font-size: 0;
-//      line-height: 0;
       border-width: @arrowWidth;
+      border-color: @color;
       border-style: solid;
     }
   }
   .vc-number-sign:hover{
     background-color: #ededed;
     border-color: #ddd;
-    color: #333;
-//    text-shadow: 0 1px 0 #f3f3f3;
+    color: @color;
   }
   .vc-number-plus{
     right: -@width;
     span{
-      border-color: transparent transparent #333 transparent;
+      border-color: transparent transparent @color transparent;
     }
   }
   .vc-number-minus{
     right: -@width;
     top: @inputHeight/2+1;
     span{
-      border-color: #333 transparent transparent transparent;
+      border-color: @color transparent transparent transparent;
       margin-top: @arrowWidth;
     }
   }
 
   .vc-number-disabled{
     cursor: not-allowed;
-    span{
-      color: #ccc;
+    .vc-number-minus-sign{
+      border-color:@disableColor transparent transparent transparent;
+    }
+    .vc-number-plus-sign{
+      border-color:transparent transparent @disableColor transparent;
     }
   }
   .vc-number-disabled:hover{
