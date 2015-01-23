@@ -42,6 +42,10 @@
             <label for="J_4">中文提示2</label>
             <input type="text" value="60" class="vc-number-ch2" id="J_5">
         </div>
+        <div class="line">
+            <label for="J_5">移动设备</label>
+            <input type="number" value="60" class="vc-number-mobile" data-range="12.00" data-max="88.00" data-min="10" data-hasdecimal="false" id="J_5">
+        </div>
     </div>
 </div>
 <script>
@@ -89,7 +93,7 @@
 
             number2.plug(new Slide());
 
-        })
+        });
 
         S.use('kg/vc-number/1.0.0/plugins/amountInWords/amountInWords,kg/vc-number/1.0.0/plugins/amountInWords/amountInWords.css',function(S, AmountInWords){
             var number2 = new VcNumber({
@@ -120,7 +124,19 @@
             number3.plug(new AmountInWords({type: 'inWords'}));
 
         })
+
+        var number4 = new VcNumber({
+            $target: '.vc-number-mobile',
+            range: 2,
+            max: 88,
+            min: 1,
+            hasDecimal: true,
+            showRange: true
+        });
+
+        number4.render();
     })
+
 </script>
 </body>
 </html>

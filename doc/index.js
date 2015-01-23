@@ -28,7 +28,7 @@ var VcNumber = Base.extend({
     _isNativeSpinBox: function(){
         var self = this, $target = self.get('$target');
         if($target.attr('type') == 'number'){
-            return true;
+            //return true;
         }
         else {
             return false;
@@ -106,7 +106,7 @@ var VcNumber = Base.extend({
             });
 
             if(!self.get('showRange')) return;
-            self.on(EV_ON,function(e){
+            self.on(EV_AFTER,function(e){
                 var $target = e.input, $trigger = e.trigger, range = self.range;
                 var $rangeEl = $target.siblings('.'+getCls.range), text;
                 if (($trigger.hasClass && $trigger.hasClass(getCls.plus)) || $trigger == 38){
@@ -116,6 +116,7 @@ var VcNumber = Base.extend({
                     text = '-';
                 }
 
+                if($target.siblings('.'+getCls.disabled).length) return;
                 $rangeEl.html(text+range).show();
                 setTimeout(function(){
                     $rangeEl.addClass(getCls.slideout);

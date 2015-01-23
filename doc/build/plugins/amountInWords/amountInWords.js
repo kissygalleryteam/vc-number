@@ -110,7 +110,7 @@ module.exports =  Base.extend({
 
         if(valDot && tplDot.length < 2){
             for(var j=0; j< valDot.length; j++){
-                tplDot.push('<li style="border-left:1px solid '+self.get('borderColor')+';border-right:none;" class="J_PriceDot"><div>'+bitTextDot[j]+'</div><strong></strong></li>');
+                tplDot.push('<li style="border-left:2px solid '+self.get('borderColor')+';border-right:none;" class="J_PriceDot"><div>'+bitTextDot[j]+'</div><strong></strong></li>');
             }
             $('ul', getSpan).append(tplDot.join(''));
         }
@@ -137,7 +137,7 @@ module.exports =  Base.extend({
         }
 
         getSpan.fadeIn(0.4);
-        getSpan.width(getSpan.children().children().length * 29);
+        getSpan.width(getSpan.children().children().length * 30);
 
     },
     _renderChineseWords:function(){
