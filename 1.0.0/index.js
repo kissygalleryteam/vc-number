@@ -2,7 +2,6 @@ var $ = require('node').all;
 var Base = require('base');
 var AmountInWords = require('./plugins/amountInWords/amountInWords');
 var timer = '', amountInWords = new AmountInWords();
-var EV_BEFORE = 'beforeChange', EV_AFTER = 'afterChange', EV_ON = 'changing';
 
 var VcNumber = Base.extend({
     initializer:function(){
@@ -45,14 +44,13 @@ var VcNumber = Base.extend({
             var $parent = item.parent(),
                 $containerEl = $(self.get('outerTpl')),
                 $plusEl = $(self.get('plusTpl')),
-                $minusEl = $(self.get('minusTpl')),
-                $rangeEl = $(self.get('rangeTpl'));
+                $minusEl = $(self.get('minusTpl'));
 
             // 赋予aria属性
             item.attr({'aria-label':ariaLabel});
 
             //建立元素之间关系
-            $containerEl.append($minusEl).append(item).append($plusEl).append($rangeEl);
+            $containerEl.append($minusEl).append(item).append($plusEl);
             $parent.append($containerEl);
         })
 
@@ -70,7 +68,6 @@ var VcNumber = Base.extend({
                 var $this = $(e.currentTarget), $parent = $this.parent(1), $target = $parent.children('.' + getCls.init), inputValue = Number(S.trim($target.val().replace(/\,/g,''))),
                     range = Number(S.trim($target.attr('data-range'))) || self.get('range'),
                     interval = 1000, intervalCount = 0;
-                self.range = range;
                 var changeValue = function(){
                     if(e.currentTarget.className.indexOf(getCls.plus)> -1 ){
                         inputValue += range;
@@ -78,11 +75,10 @@ var VcNumber = Base.extend({
                     else if(e.currentTarget.className.indexOf(getCls.minus)>-1){
                         inputValue -= range;
                     }
-                    self.fire(EV_BEFORE,{input: $target, trigger: $this});
                     self._limitRange(inputValue, $target);
-                    self.fire(EV_ON,{input: $target, trigger: $this});
                 };
                 if(e.type == 'keydown' || e.type == 'mousedown'){
+                    self.fire('beforeChange',{input: $target, trigger: $this});
                     changeValue();
                     if(timer) {clearTimeout(timer);}
                     timer = setTimeout(function(){
@@ -100,35 +96,15 @@ var VcNumber = Base.extend({
                     intervalCount = 0;
 
                     /*触发change事件*/
-                    self.fire(EV_AFTER,{input: $target, trigger: $this});
+                    self.fire('afterChange',{input: $target, trigger: $this});
                 }
 
-            });
-
-            if(!self.get('showRange')) return;
-            self.on(EV_ON,function(e){
-                var $target = e.input, $trigger = e.trigger, range = self.range;
-                var $rangeEl = $target.siblings('.'+getCls.range), text;
-                if (($trigger.hasClass && $trigger.hasClass(getCls.plus)) || $trigger == 38){
-                    text = '+';
-                }
-                else if (($trigger.hasClass && $trigger.hasClass(getCls.minus)) || $trigger == 40){
-                    text = '-';
-                }
-
-                $rangeEl.html(text+range).show();
-                setTimeout(function(){
-                    $rangeEl.addClass(getCls.slideout);
-                },50);
-                setTimeout(function(){
-                    $rangeEl.hide().removeClass(getCls.slideout)
-                },500)
             });
 
         });
 
         $input.on('keydown keyup',function(e){
-            var $target = $(e.currentTarget), inputValue = Number(S.trim($target.val().replace(/\,/g,''))),
+            var $this = $(this), $target = $(e.currentTarget), inputValue = Number(S.trim($target.val().replace(/\,/g,''))),
                 range = Number(S.trim($target.attr('data-range'))) || self.get('range');
             var changeValue = function(){
                 //向上键
@@ -139,24 +115,21 @@ var VcNumber = Base.extend({
                 else if(e.keyCode === 40){
                     inputValue -= range;
                 }
-                self.fire(EV_BEFORE,{input: $target, trigger: e.keyCode});
                 self._limitRange(inputValue, $target);
-                self.fire(EV_ON,{input: $target, trigger: e.keyCode});
             };
 
             if(e.keyCode === 38 || e.keyCode === 40){
                 if(e.type == 'keydown'){
+                    self.fire('beforeChange',{input: $target, trigger: $this});
                     changeValue();
                 }
                 if(e.type == 'keyup'){
                     /*触发change事件*/
-                    self.fire(EV_AFTER,{input: $target, trigger: e.keyCode});
+                    self.fire('afterChange',{input: $target, trigger: $this});
                 }
             }
 
         });
-
-
 
     },
     _eventOnValide: function(){
@@ -172,7 +145,7 @@ var VcNumber = Base.extend({
             /*防止因为blur时同时触发btn的click事件,从而生成不必要的timer*/
             if(timer) {clearTimeout(timer);}
             /*触发change事件*/
-            self.fire(EV_AFTER,{input: $target, trigger: $this});
+            self.fire('afterChange',{input: $target, trigger: $this});
         });
     },
 
@@ -231,24 +204,6 @@ var VcNumber = Base.extend({
             }
         },
         /**
-        * 最小值
-        * */
-        min: {
-            value: Number.MIN_VALUE
-        },
-        max: {
-            value: Number.MAX_VALUE
-        },
-        range: {
-            value: 1
-        },
-        showRange: {
-            value: false
-        },
-        hasDecimal: {
-            value: false
-        },
-        /**
          * 一组样式名
          * @type {Object}
          * @default cls:{init: 'vc-number',plus: 'vc-number-plus',minus: 'vc-number-minus',container: 'vc-plus-minus-operation'}
@@ -260,9 +215,7 @@ var VcNumber = Base.extend({
                 plus: 'vc-number-plus',
                 minus: 'vc-number-minus',
                 container: 'vc-plus-minus-operation',
-                disabled: 'vc-number-disabled',
-                range: 'vc-number-range-icon',
-                slideout: 'slideout'
+                disabled: 'vc-number-disabled'
             }
         },
         outerTpl:{
@@ -273,21 +226,33 @@ var VcNumber = Base.extend({
             }
         },
         plusTpl:{
-            value:'<a href="#!/plus" class="{plus} {sign}" role="button"><span class="{plus}-sign">+</span></a>',
+            value:'<a href="#!/plus" class="{plus} {sign}" role="button"><span>+</span></a>',
             getter:function(v){
                 var self = this, cls = self.get('cls');
                 return S.substitute(v,{plus:cls.plus, sign:cls.sign});
             }
         },
         minusTpl:{
-            value: '<a href="#!/minus" class="{minus} {sign}"  role="button"><span class="{minus}-sign">-</span></a>',
+            value: '<a href="#!/minus" class="{minus} {sign}"  role="button"><span>-</span></a>',
             getter:function(v){
                 var self = this, cls = self.get('cls');
                 return S.substitute(v,{minus:cls.minus, sign:cls.sign});
             }
         },
-        rangeTpl:{
-            value: '<p class="vc-number-range-icon"></p>'
+        /**
+        * 最小值
+        * */
+        min: {
+            value: Number.MIN_VALUE
+        },
+        max: {
+            value: Number.MAX_VALUE
+        },
+        range: {
+            value: 1
+        },
+        hasDecimal: {
+            value: false
         },
         /**
          * 无障碍，设置aria-label属性值

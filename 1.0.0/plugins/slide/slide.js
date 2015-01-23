@@ -19,7 +19,6 @@ module.exports =  Base.extend({
         var self = this, vcNumber = self.get('vcNumber');
         vcNumber.detach('beforeChange',self.get('beforeChange'));
         vcNumber.detach('afterChange',self.get('afterChange'));
-        //vcNumber.detach('changing',self.get('changing'));
     },
     _initAttr: function(vcNumber){
         var self = this;
@@ -45,32 +44,19 @@ module.exports =  Base.extend({
     _bindEvents: function(){
         var self = this, vcNumber = self.get('vcNumber');
         var cls = vcNumber.get('cls'), slideCls = self.get('slideCls');
-
-        var timer;
-        var handleAfterChange = function(e){
-            var $target = e.input, $tranCon = $target.next('.'+slideCls.tranCls);
-            timer && clearTimeout(timer);
-            timer = setTimeout(function(){
-                $target.removeClass(slideCls.hidCls);
-                //$tranCon && $tranCon.remove();
-            },700)
-
-        };
-
         var handleBeforeChange = function(e){
-            var $target = e.input, $trigger = e.trigger,$tranCon = $target.next('.'+slideCls.tranCls);
-            $target.addClass(slideCls.hidCls);
+            var $target = e.input, $trigger = e.trigger;
             var val = Number($target.val()),
                 min = parseFloat($target.attr('data-min')) || vcNumber.get('min'),
                 max = parseFloat($target.attr('data-max')) || vcNumber.get('max'),
                 range = Number(S.trim($target.attr('data-range'))) || vcNumber.get('range');
+            $target.addClass(slideCls.hidCls);
 
             //按上键
-            if (($trigger.hasClass && $trigger.hasClass(cls.plus)) || $trigger == 38) {
+            if ($trigger.hasClass(cls.plus)) {
                 if(val + range > max) {range = max - val;}
                 if(!range) {
                     $target.removeClass(slideCls.hidCls);
-                    $tranCon && $tranCon.remove();
                     return
                 }
 
@@ -80,11 +66,10 @@ module.exports =  Base.extend({
                 },50)
             }
             //按下键
-            else if (($trigger.hasClass && $trigger.hasClass(cls.minus)) || $trigger == 40) {
+            else if ($trigger.hasClass(cls.minus)) {
                 if(val - range < min) {range = val - min;}
                 if(!range) {
                     $target.removeClass(slideCls.hidCls);
-                    $tranCon && $tranCon.remove();
                     return;
                 }
 
@@ -96,14 +81,22 @@ module.exports =  Base.extend({
 
         };
 
+        var timer;
+        var handleAfterChange = function(e){
+            var $target = e.input, $tranCon = $target.next('.'+slideCls.tranCls);
+            timer && clearTimeout(timer);
+            timer = setTimeout(function(){
+                $target.removeClass(slideCls.hidCls);
+                $tranCon && $tranCon.remove();
+            },500)
+
+        };
 
         vcNumber.on('beforeChange',handleBeforeChange);
         vcNumber.on('afterChange',handleAfterChange);
-        //vcNumber.on('changing',handleBeforeChange);
 
         self.set('beforeChange',handleBeforeChange);
         self.set('afterChange',handleAfterChange);
-        //self.set('changing',handleChanging);
 
     }
 },{
@@ -119,8 +112,7 @@ module.exports =  Base.extend({
             value: {
                 activeCls: 'active',
                 tranCls  : 'tran',
-                hidCls: 'hideTxt',
-                disabled: 'vc-number-disabled'
+                hidCls: 'hideTxt'
             }
         },
         outerTpl: {
