@@ -7,6 +7,8 @@
 @borderWidth: 1px;
 @color: #333;
 @disableColor: #ccc;
+@time: 0.4s;
+
 
 body, button, input, select, textarea{
   font-family: tahoma,arial,'Hiragino Sans GB',SimSun,sans-serif;
@@ -83,4 +85,23 @@ body, button, input, select, textarea{
     background-color: #f6f6f6;
   }
 
+  .vc-number-range-icon{
+    position: absolute;
+    right: 0;
+    top: -@height*1.5;
+    color: #7f0019;
+    opacity: 1;
+    display: none;
+
+    -webkit-transition: @time all ease-in-out;
+    -moz-transition: @time all ease-in-out;
+    -ms-transition: @time all ease-in-out;
+    -o-transition: @time all ease-in-out;
+  }
+
+  .slideout{
+    height: 0;
+    opacity: 0;
+    top: -@height*2;
+  }
 }

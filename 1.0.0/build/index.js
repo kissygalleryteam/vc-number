@@ -46,13 +46,14 @@ var VcNumber = Base.extend({
             var $parent = item.parent(),
                 $containerEl = $(self.get('outerTpl')),
                 $plusEl = $(self.get('plusTpl')),
-                $minusEl = $(self.get('minusTpl'));
+                $minusEl = $(self.get('minusTpl')),
+                $rangeEl = $(self.get('rangeTpl'));
 
             // 赋予aria属性
             item.attr({'aria-label':ariaLabel});
 
             //建立元素之间关系
-            $containerEl.append($minusEl).append(item).append($plusEl);
+            $containerEl.append($minusEl).append(item).append($plusEl).append($rangeEl);
             $parent.append($containerEl);
         })
 
@@ -70,6 +71,7 @@ var VcNumber = Base.extend({
                 var $this = $(e.currentTarget), $parent = $this.parent(1), $target = $parent.children('.' + getCls.init), inputValue = Number(S.trim($target.val().replace(/\,/g,''))),
                     range = Number(S.trim($target.attr('data-range'))) || self.get('range'),
                     interval = 1000, intervalCount = 0;
+                self.range = range;
                 var changeValue = function(){
                     if(e.currentTarget.className.indexOf(getCls.plus)> -1 ){
                         inputValue += range;
@@ -104,8 +106,24 @@ var VcNumber = Base.extend({
 
             });
 
+            if(!self.get('showRange')) return;
             self.on(EV_ON,function(e){
+                var $target = e.input, $trigger = e.trigger, range = self.range;
+                var $rangeEl = $target.siblings('.'+getCls.range), text;
+                if (($trigger.hasClass && $trigger.hasClass(getCls.plus)) || $trigger == 38){
+                    text = '+';
+                }
+                else if (($trigger.hasClass && $trigger.hasClass(getCls.minus)) || $trigger == 40){
+                    text = '-';
+                }
 
+                $rangeEl.html(text+range).show();
+                setTimeout(function(){
+                    $rangeEl.addClass(getCls.slideout);
+                },50);
+                setTimeout(function(){
+                    $rangeEl.hide().removeClass(getCls.slideout)
+                },500)
             });
 
         });
@@ -243,7 +261,9 @@ var VcNumber = Base.extend({
                 plus: 'vc-number-plus',
                 minus: 'vc-number-minus',
                 container: 'vc-plus-minus-operation',
-                disabled: 'vc-number-disabled'
+                disabled: 'vc-number-disabled',
+                range: 'vc-number-range-icon',
+                slideout: 'slideout'
             }
         },
         outerTpl:{
@@ -268,7 +288,7 @@ var VcNumber = Base.extend({
             }
         },
         rangeTpl:{
-            value: '<span class="range-icon">{range}</span>'
+            value: '<p class="vc-number-range-icon"></p>'
         },
         /**
          * 无障碍，设置aria-label属性值
