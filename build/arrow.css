@@ -17,6 +17,7 @@ textarea {
   margin: 0;
   padding: 0;
   height: 34px;
+  line-height: 34px;
   text-align: center;
   border: 1px solid #dddddd;
   vertical-align: middle;
@@ -74,4 +75,21 @@ textarea {
 }
 .vc-plus-minus-operation .vc-number-disabled:hover {
   background-color: #f6f6f6;
+}
+.vc-plus-minus-operation .vc-number-range-icon {
+  position: absolute;
+  right: 0;
+  top: -45px;
+  color: #7f0019;
+  opacity: 1;
+  display: none;
+  -webkit-transition: 0.4s all ease-in-out;
+  -moz-transition: 0.4s all ease-in-out;
+  -ms-transition: 0.4s all ease-in-out;
+  -o-transition: 0.4s all ease-in-out;
+}
+.vc-plus-minus-operation .slideout {
+  height: 0;
+  opacity: 0;
+  top: -60px;
 }

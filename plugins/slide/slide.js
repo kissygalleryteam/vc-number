@@ -52,21 +52,21 @@ module.exports =  Base.extend({
             timer && clearTimeout(timer);
             timer = setTimeout(function(){
                 $target.removeClass(slideCls.hidCls);
-                $tranCon && $tranCon.remove();
+                //$tranCon && $tranCon.remove();
             },700)
 
         };
 
         var handleBeforeChange = function(e){
             var $target = e.input, $trigger = e.trigger,$tranCon = $target.next('.'+slideCls.tranCls);
+            $target.addClass(slideCls.hidCls);
             var val = Number($target.val()),
                 min = parseFloat($target.attr('data-min')) || vcNumber.get('min'),
                 max = parseFloat($target.attr('data-max')) || vcNumber.get('max'),
                 range = Number(S.trim($target.attr('data-range'))) || vcNumber.get('range');
-            $target.addClass(slideCls.hidCls);
 
             //按上键
-            if ($trigger.hasClass(cls.plus)) {
+            if (($trigger.hasClass && $trigger.hasClass(cls.plus)) || $trigger == 38) {
                 if(val + range > max) {range = max - val;}
                 if(!range) {
                     $target.removeClass(slideCls.hidCls);
@@ -80,7 +80,7 @@ module.exports =  Base.extend({
                 },50)
             }
             //按下键
-            else if ($trigger.hasClass(cls.minus)) {
+            else if (($trigger.hasClass && $trigger.hasClass(cls.minus)) || $trigger == 40) {
                 if(val - range < min) {range = val - min;}
                 if(!range) {
                     $target.removeClass(slideCls.hidCls);
