@@ -1,4 +1,4 @@
-KISSY.add('kg/vc-number/1.0.0/plugins/slide/slide',["node","base"],function(S ,require, exports, module) {
+KISSY.add('kg/vc-number/1.1.0/plugins/slide/slide',["node","base"],function(S ,require, exports, module) {
  /**
  * @fileoverview  滑动显示插件
  * @author 易敛 <yilian.wj@taobao.com>
@@ -53,7 +53,7 @@ module.exports =  Base.extend({
             timer && clearTimeout(timer);
             timer = setTimeout(function(){
                 $target.removeClass(slideCls.hidCls);
-                //$tranCon && $tranCon.remove();
+                $tranCon && $tranCon.remove();
             },700)
 
         };

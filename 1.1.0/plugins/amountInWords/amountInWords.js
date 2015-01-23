@@ -24,6 +24,8 @@ module.exports =  Base.extend({
         var self = this, vcNumber = self.get('vcNumber');
         vcNumber.detach('beforeChange',self.get('beforeChange'));
         vcNumber.detach('afterChange',self.get('afterChange'));
+        var $pluginHtml = vcNumber.get('$target').siblings('.'+self.get('cls'));
+        $pluginHtml.length && $pluginHtml.remove();
     },
     _renderHtml: function(){
         var self = this, $target = self.get('$target'), moneyTpl = self.get('moneyTpl');

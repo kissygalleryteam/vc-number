@@ -52,7 +52,7 @@ module.exports =  Base.extend({
             timer && clearTimeout(timer);
             timer = setTimeout(function(){
                 $target.removeClass(slideCls.hidCls);
-                //$tranCon && $tranCon.remove();
+                $tranCon && $tranCon.remove();
             },700)
 
         };
