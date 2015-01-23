@@ -31,11 +31,161 @@
           <p class="com-info"><span class="info-label">kissy版本</span><span>1.4.X</span>
           </p><h2 id="-">综述</h2>
 <p>VcNumber。</p>
+<p>数字加减器，附带滑动效果（插件），以及两种中文提示（插件）</p>
+<p>支持部分键盘操作，按上下键可切换数字</p>
 <h2 id="-">初始化组件</h2>
 <pre><code>S.use(&#39;kg/vc-number/1.0.0/index&#39;, function (S, VcNumber) {
      var vc-number = new VcNumber();
 })
 </code></pre><h2 id="api-">API说明</h2>
+<p>提供两种皮肤：&#39;kg/vc-number/1.0.0/index.css&#39;, &#39;kg/vc-number/1.0.0/arrow.css&#39;</p>
+<h3 id="-">默认配置</h3>
+<h4 id="-">代码</h4>
+<pre><code>&lt;input type=&quot;text&quot; value=&quot;40.00&quot; class=&quot;vc-number&quot; data-range=&quot;2.00&quot; data-max=&quot;9999999.00&quot; data-min=&quot;1&quot; id=&quot;J_1&quot;&gt;
+
+S.use(&#39;kg/vc-number/1.0.0/index,kg/vc-number/1.0.0/index.css&#39;, function (S, VcNumber) {
+        var number = new VcNumber({
+            $target: &#39;.vc-number&#39;,
+            range: 2,
+            max: 88,
+            min: 1,
+            hasDecimal: true,
+            showRange: true
+        }).on(&#39;afterChange&#39;,function(e){
+            var $target = e.input;
+            alert($target.val());
+        });
+
+        number.render();
+})
+</code></pre><h4 id="-">属性配置</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$target</td>
+<td style="text-align:center">input对象</td>
+</tr>
+<tr>
+<td style="text-align:center">range</td>
+<td style="text-align:center">增减幅度</td>
+</tr>
+<tr>
+<td style="text-align:center">max</td>
+<td style="text-align:center">最大值</td>
+</tr>
+<tr>
+<td style="text-align:center">min</td>
+<td style="text-align:center">最小值</td>
+</tr>
+<tr>
+<td style="text-align:center">hasDecimal</td>
+<td style="text-align:center">是否显示小数点(两位)</td>
+</tr>
+<tr>
+<td style="text-align:center">showRange</td>
+<td style="text-align:center">是否显示加减幅度</td>
+</tr>
+</tbody>
+</table>
+<pre><code>&gt; 批量初始化的时候，自定义属性*data-range*,*data-max*,*data-min*,会覆盖初始化属性
+&gt; 长按加减按钮会自动变换数字
+</code></pre><h4 id="-">事件说明</h4>
+<ul>
+<li>beforeChange</li>
+</ul>
+<pre><code>/**
+* @description 在数字发生改变之前触发
+* @param {ev.input} node 值发生改变的input
+* @param {ev.trigger} node 触发节点(如果是按键则返回keyCode)
+* @return null
+*/
+countdown.on(&#39;beforeChage&#39;,function(ev) {
+    var remain = ev.input, trigger = ev.trigger;
+})
+</code></pre><ul>
+<li>afterChange</li>
+</ul>
+<pre><code>/**
+* @description 在数字发生改变之后触发
+* @param {ev.input} node 值发生改变的input
+* @param {ev.trigger} node 触发节点(如果是按键则返回keyCode)
+* @return null
+*/
+countdown.on(&#39;afterChange&#39;,function(ev) {
+    var remain = ev.input, trigger = ev.trigger;
+})
+</code></pre><h3 id="-">滑动效果插件</h3>
+<h4 id="-">代码</h4>
+<pre><code>S.use(&#39;kg/vc-number/1.0.0/plugins/slide/slide,kg/vc-number/1.0.0/plugins/slide/slide.css&#39;,function(S, Slide){
+            var number2 = new VcNumber({
+                $target: &#39;.vc-number-slide&#39;,
+                range: 2,
+                max: 888,
+                min: 1,
+                hasDecimal: false,
+                showRange: true
+            });
+
+            number2.render();
+
+            number2.plug(new Slide());
+
+        })
+})
+</code></pre><h4 id="-">属性配置</h4>
+<p>   无</p>
+<h3 id="-">中文提示插件</h3>
+<h4 id="-">代码</h4>
+<pre><code>S.use(&#39;kg/vc-number/1.0.0/plugins/amountInWords/amountInWords,kg/vc-number/1.0.0/plugins/amountInWords/amountInWords.css&#39;,function(S, AmountInWords){
+            var number2 = new VcNumber({
+                $target: &#39;.vc-number-ch&#39;,
+                range: 1000,
+                max: 999999999,
+                min: 1,
+                hasDecimal: true
+            });
+
+            number2.render();
+
+            number2.plug(new AmountInWords());
+
+            /*换种中文提示方式*/
+            var number3 = new VcNumber({
+                $target: &#39;.vc-number-ch2&#39;,
+                range: 1000,
+                max: 999999999,
+                min: 1,
+                hasDecimal: false,
+                showRange: true
+
+            });
+
+            number3.render();
+
+            number3.plug(new AmountInWords({type: &#39;inWords&#39;}));
+
+})
+</code></pre><h4 id="-">属性配置</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">type</td>
+<td style="text-align:center">&#39;inCells&#39;:中文表格提示(默认);&#39;inWords&#39;：中文提示;</td>
+</tr>
+</tbody>
+</table>
 
           <div style="display:none;"><script type="text/javascript" src="http://tajs.qq.com/stats?sId=36378479" charset="UTF-8"></script></div>
           <script src="http://docs.kissyui.com/1.4/source/guideline/templates/assets/com.js"></script>
