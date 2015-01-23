@@ -53,18 +53,18 @@ module.exports =  Base.extend({
             timer && clearTimeout(timer);
             timer = setTimeout(function(){
                 $target.removeClass(slideCls.hidCls);
-                $tranCon && $tranCon.remove();
+                //$tranCon && $tranCon.remove();
             },700)
 
         };
 
         var handleBeforeChange = function(e){
             var $target = e.input, $trigger = e.trigger,$tranCon = $target.next('.'+slideCls.tranCls);
+            $target.addClass(slideCls.hidCls);
             var val = Number($target.val()),
                 min = parseFloat($target.attr('data-min')) || vcNumber.get('min'),
                 max = parseFloat($target.attr('data-max')) || vcNumber.get('max'),
                 range = Number(S.trim($target.attr('data-range'))) || vcNumber.get('range');
-            $target.addClass(slideCls.hidCls);
 
             //按上键
             if (($trigger.hasClass && $trigger.hasClass(cls.plus)) || $trigger == 38) {

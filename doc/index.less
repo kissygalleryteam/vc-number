@@ -1,7 +1,7 @@
 @width: 30px;
 @height: 30px;
 @fontSize: 30px;
-@inputHeight: 36px;
+@inputHeight: 34px;
 @inputFontSize: 20px;
 @disableColor: #ccc;
 @borderWidth: 1px;
@@ -26,7 +26,7 @@ body, button, input, select, textarea{
     height: @inputHeight;
     line-height: @inputHeight;
     text-align: center;
-    border: 1px solid #ddd;
+    border: @borderWidth solid #ddd;
     vertical-align: middle;
     font-size: @inputFontSize;
   }
@@ -38,10 +38,10 @@ body, button, input, select, textarea{
     text-align: center;
     vertical-align: middle;
     height: @height;
-    line-height: @height;
+    line-height: @height+(-3);
     font-size: @fontSize;
     width: @width;
-    padding: 5px;
+    padding: 3px;
     background-color: #f6f6f6;
     color: #333;
     text-shadow: 0 1px 0 #f3f3f3;
