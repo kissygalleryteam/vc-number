@@ -76,11 +76,12 @@ var VcNumber = Base.extend({
                     else if(e.currentTarget.className.indexOf(getCls.minus)>-1){
                         inputValue -= range;
                     }
+                    self.fire('beforeChange',{input: $target, trigger: $this});
                     self._limitRange(inputValue, $target);
                     self.fire('changing',{input: $target, trigger: $this});
                 };
                 if(e.type == 'keydown' || e.type == 'mousedown'){
-                    self.fire('beforeChange',{input: $target, trigger: $this});
+                    //self.fire('beforeChange',{input: $target, trigger: $this});
                     changeValue();
                     if(timer) {clearTimeout(timer);}
                     timer = setTimeout(function(){
@@ -117,13 +118,14 @@ var VcNumber = Base.extend({
                 else if(e.keyCode === 40){
                     inputValue -= range;
                 }
+                self.fire('beforeChange',{input: $target, trigger: e.keyCode});
                 self._limitRange(inputValue, $target);
                 self.fire('changing',{input: $target, trigger: e.keyCode});
             };
 
             if(e.keyCode === 38 || e.keyCode === 40){
                 if(e.type == 'keydown'){
-                    self.fire('beforeChange',{input: $target, trigger: e.keyCode});
+                    //self.fire('beforeChange',{input: $target, trigger: e.keyCode});
                     changeValue();
                 }
                 if(e.type == 'keyup'){
