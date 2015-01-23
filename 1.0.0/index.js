@@ -2,6 +2,7 @@ var $ = require('node').all;
 var Base = require('base');
 var AmountInWords = require('./plugins/amountInWords/amountInWords');
 var timer = '', amountInWords = new AmountInWords();
+var EV_BEFORE = 'beforeChange', EV_AFTER = 'afterChange', EV_ON = 'changing';
 
 var VcNumber = Base.extend({
     initializer:function(){
@@ -75,12 +76,11 @@ var VcNumber = Base.extend({
                     else if(e.currentTarget.className.indexOf(getCls.minus)>-1){
                         inputValue -= range;
                     }
-                    self.fire('beforeChange',{input: $target, trigger: $this});
+                    self.fire(EV_BEFORE,{input: $target, trigger: $this});
                     self._limitRange(inputValue, $target);
-                    self.fire('changing',{input: $target, trigger: $this});
+                    self.fire(EV_ON,{input: $target, trigger: $this});
                 };
                 if(e.type == 'keydown' || e.type == 'mousedown'){
-                    //self.fire('beforeChange',{input: $target, trigger: $this});
                     changeValue();
                     if(timer) {clearTimeout(timer);}
                     timer = setTimeout(function(){
@@ -98,8 +98,12 @@ var VcNumber = Base.extend({
                     intervalCount = 0;
 
                     /*触发change事件*/
-                    self.fire('afterChange',{input: $target, trigger: $this});
+                    self.fire(EV_AFTER,{input: $target, trigger: $this});
                 }
+
+            });
+
+            self.on(EV_ON,function(e){
 
             });
 
@@ -117,23 +121,24 @@ var VcNumber = Base.extend({
                 else if(e.keyCode === 40){
                     inputValue -= range;
                 }
-                self.fire('beforeChange',{input: $target, trigger: e.keyCode});
+                self.fire(EV_BEFORE,{input: $target, trigger: e.keyCode});
                 self._limitRange(inputValue, $target);
-                self.fire('changing',{input: $target, trigger: e.keyCode});
+                self.fire(EV_ON,{input: $target, trigger: e.keyCode});
             };
 
             if(e.keyCode === 38 || e.keyCode === 40){
                 if(e.type == 'keydown'){
-                    //self.fire('beforeChange',{input: $target, trigger: e.keyCode});
                     changeValue();
                 }
                 if(e.type == 'keyup'){
                     /*触发change事件*/
-                    self.fire('afterChange',{input: $target, trigger: e.keyCode});
+                    self.fire(EV_AFTER,{input: $target, trigger: e.keyCode});
                 }
             }
 
         });
+
+
 
     },
     _eventOnValide: function(){
@@ -149,7 +154,7 @@ var VcNumber = Base.extend({
             /*防止因为blur时同时触发btn的click事件,从而生成不必要的timer*/
             if(timer) {clearTimeout(timer);}
             /*触发change事件*/
-            self.fire('afterChange',{input: $target, trigger: $this});
+            self.fire(EV_AFTER,{input: $target, trigger: $this});
         });
     },
 
@@ -208,6 +213,24 @@ var VcNumber = Base.extend({
             }
         },
         /**
+        * 最小值
+        * */
+        min: {
+            value: Number.MIN_VALUE
+        },
+        max: {
+            value: Number.MAX_VALUE
+        },
+        range: {
+            value: 1
+        },
+        showRange: {
+            value: false
+        },
+        hasDecimal: {
+            value: false
+        },
+        /**
          * 一组样式名
          * @type {Object}
          * @default cls:{init: 'vc-number',plus: 'vc-number-plus',minus: 'vc-number-minus',container: 'vc-plus-minus-operation'}
@@ -243,20 +266,8 @@ var VcNumber = Base.extend({
                 return S.substitute(v,{minus:cls.minus, sign:cls.sign});
             }
         },
-        /**
-        * 最小值
-        * */
-        min: {
-            value: Number.MIN_VALUE
-        },
-        max: {
-            value: Number.MAX_VALUE
-        },
-        range: {
-            value: 1
-        },
-        hasDecimal: {
-            value: false
+        rangeTpl:{
+            value: '<span class="range-icon">{range}</span>'
         },
         /**
          * 无障碍，设置aria-label属性值
