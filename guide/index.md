@@ -8,13 +8,13 @@ VcNumber。
 
 ## 初始化组件
 		
-    S.use('kg/vc-number/1.0.0/index', function (S, VcNumber) {
+    S.use('kg/vc-number/1.1.0/index', function (S, VcNumber) {
          var vc-number = new VcNumber();
     })
 
 ## API说明
 
-    > 提供两种皮肤：'kg/vc-number/1.0.0/index.css', 'kg/vc-number/1.0.0/arrow.css'
+    > 提供两种皮肤：'kg/vc-number/1.1.0/index.css', 'kg/vc-number/1.1.0/arrow.css'
 
 ### 默认配置
 
@@ -22,7 +22,7 @@ VcNumber。
 
     <input type="text" value="40.00" class="vc-number" data-range="2.00" data-max="9999999.00" data-min="1" id="J_1">
 
-    S.use('kg/vc-number/1.0.0/index,kg/vc-number/1.0.0/index.css', function (S, VcNumber) {
+    S.use('kg/vc-number/1.1.0/index,kg/vc-number/1.1.0/index.css', function (S, VcNumber) {
             var number = new VcNumber({
                 $target: '.vc-number',
                 range: 2,
@@ -82,7 +82,7 @@ countdown.on('afterChange',function(ev) {
 ### 滑动效果插件
 
 #### 代码
-    S.use('kg/vc-number/1.0.0/plugins/slide/slide,kg/vc-number/1.0.0/plugins/slide/slide.css',function(S, Slide){
+    S.use('kg/vc-number/1.1.0/plugins/slide/slide,kg/vc-number/1.1.0/plugins/slide/slide.css',function(S, Slide){
                 var number2 = new VcNumber({
                     $target: '.vc-number-slide',
                     range: 2,
@@ -105,7 +105,7 @@ countdown.on('afterChange',function(ev) {
 ### 中文提示插件
 
 #### 代码
-    S.use('kg/vc-number/1.0.0/plugins/amountInWords/amountInWords,kg/vc-number/1.0.0/plugins/amountInWords/amountInWords.css',function(S, AmountInWords){
+    S.use('kg/vc-number/1.1.0/plugins/amountInWords/amountInWords,kg/vc-number/1.1.0/plugins/amountInWords/amountInWords.css',function(S, AmountInWords){
                 var number2 = new VcNumber({
                     $target: '.vc-number-ch',
                     range: 1000,
@@ -139,3 +139,7 @@ countdown.on('afterChange',function(ev) {
 | 参数        | 说明   |
 | :--------:   | :-----:  |
 | type | 'inCells':中文表格提示(默认);'inWords'：中文提示;  |
+
+## changeLog
++   2015-01-23发布1.0.0版
++   2015-01-23发布1.1.0，解决点击到临界值还出现range的bug
