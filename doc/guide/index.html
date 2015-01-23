@@ -25,7 +25,7 @@
           <p class="author-wrapper"><span>组件有问题？旺旺联系作者：</span><a href="https://github.com/flyinhigh" target="_blank" data-name="易敛" class="author"><img src="https://avatars.githubusercontent.com/u/681094?v=3&amp;s=60" alt="易敛"></a><span class="author-name">易敛</span>
           </p>
           <div class="common-link"><a href="../demo/index.html" target="_blank" class="demo">示例</a><a href="https://github.com/kissygalleryteam/vc-number" target="_blank" class="source">源码</a></div>
-          <p class="com-info"><span class="info-label">View</span><span data-com="vc-number" class="J_View">24</span></p>
+          <p class="com-info"><span class="info-label">View</span><span data-com="vc-number" class="J_View">29</span></p>
           <p class="com-info"><span class="info-label">所属分类</span><a href="http://kpm.taobao.net/list/表单">表单</a>
           </p>
           <p class="com-info"><span class="info-label">kissy版本</span><span>1.4.X</span>
@@ -34,16 +34,16 @@
 <p>数字加减器，附带滑动效果（插件），以及两种中文提示（插件）</p>
 <p>支持部分键盘操作，按上下键可切换数字</p>
 <h2 id="-">初始化组件</h2>
-<pre><code>S.use(&#39;kg/vc-number/1.0.0/index&#39;, function (S, VcNumber) {
+<pre><code>S.use(&#39;kg/vc-number/1.1.0/index&#39;, function (S, VcNumber) {
      var vc-number = new VcNumber();
 })
 </code></pre><h2 id="api-">API说明</h2>
-<pre><code>&gt; 提供两种皮肤：&#39;kg/vc-number/1.0.0/index.css&#39;, &#39;kg/vc-number/1.0.0/arrow.css&#39;
+<pre><code>&gt; 提供两种皮肤：&#39;kg/vc-number/1.1.0/index.css&#39;, &#39;kg/vc-number/1.1.0/arrow.css&#39;
 </code></pre><h3 id="-">默认配置</h3>
 <h4 id="-">代码</h4>
 <pre><code>&lt;input type=&quot;text&quot; value=&quot;40.00&quot; class=&quot;vc-number&quot; data-range=&quot;2.00&quot; data-max=&quot;9999999.00&quot; data-min=&quot;1&quot; id=&quot;J_1&quot;&gt;
 
-S.use(&#39;kg/vc-number/1.0.0/index,kg/vc-number/1.0.0/index.css&#39;, function (S, VcNumber) {
+S.use(&#39;kg/vc-number/1.1.0/index,kg/vc-number/1.1.0/index.css&#39;, function (S, VcNumber) {
         var number = new VcNumber({
             $target: &#39;.vc-number&#39;,
             range: 2,
@@ -122,7 +122,7 @@ countdown.on(&#39;afterChange&#39;,function(ev) {
 })
 </code></pre><h3 id="-">滑动效果插件</h3>
 <h4 id="-">代码</h4>
-<pre><code>S.use(&#39;kg/vc-number/1.0.0/plugins/slide/slide,kg/vc-number/1.0.0/plugins/slide/slide.css&#39;,function(S, Slide){
+<pre><code>S.use(&#39;kg/vc-number/1.1.0/plugins/slide/slide,kg/vc-number/1.1.0/plugins/slide/slide.css&#39;,function(S, Slide){
             var number2 = new VcNumber({
                 $target: &#39;.vc-number-slide&#39;,
                 range: 2,
@@ -142,7 +142,7 @@ countdown.on(&#39;afterChange&#39;,function(ev) {
 <p>   无</p>
 <h3 id="-">中文提示插件</h3>
 <h4 id="-">代码</h4>
-<pre><code>S.use(&#39;kg/vc-number/1.0.0/plugins/amountInWords/amountInWords,kg/vc-number/1.0.0/plugins/amountInWords/amountInWords.css&#39;,function(S, AmountInWords){
+<pre><code>S.use(&#39;kg/vc-number/1.1.0/plugins/amountInWords/amountInWords,kg/vc-number/1.1.0/plugins/amountInWords/amountInWords.css&#39;,function(S, AmountInWords){
             var number2 = new VcNumber({
                 $target: &#39;.vc-number-ch&#39;,
                 range: 1000,
@@ -186,6 +186,11 @@ countdown.on(&#39;afterChange&#39;,function(ev) {
 </tr>
 </tbody>
 </table>
+<h2 id="changelog">changeLog</h2>
+<ul>
+<li>2015-01-23发布1.0.0版</li>
+<li>2015-01-23发布1.1.0，解决点击到临界值还出现range的bug</li>
+</ul>
 
           <div style="display:none;"><script type="text/javascript" src="http://tajs.qq.com/stats?sId=36378479" charset="UTF-8"></script></div>
           <script src="http://docs.kissyui.com/1.4/source/guideline/templates/assets/com.js"></script>
