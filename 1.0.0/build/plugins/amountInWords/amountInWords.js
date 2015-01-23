@@ -36,7 +36,7 @@ module.exports =  Base.extend({
 
         };
         var handleAfterChange = function (e) {
-            var $target = e.input || $(e.currentTarget);
+            var $target = e.input;
             var val = self.addCommas($target.val());
             $target.val(val);
             var type = self.get('type'), types = self.get('types');
@@ -55,13 +55,11 @@ module.exports =  Base.extend({
 
         vcNumber.on('beforeChange',handleBeforeChange);
         vcNumber.on('afterChange',handleAfterChange);
-        self.get('$target').on('focus',handleAfterChange);
 
         var inputCls = vcNumber.get('cls').init, signCls = vcNumber.get('cls').sign, cnCls = self.get('cls');
         $(document).on('click',function(e){
             var $target = $(e.target);
-            if(!$target.hasClass(inputCls) && !$target.hasClass(cnCls) && !$target.hasClass(signCls)
-                && $target.parent() && !$target.parent().hasClass(signCls) ){
+            if(!$target.hasClass(inputCls) && !$target.hasClass(cnCls) && !$target.hasClass(signCls) && !$target.parent().hasClass(signCls) ){
                 self._hideChineseNumUl();
             }
         });
@@ -145,8 +143,7 @@ module.exports =  Base.extend({
         var getSpan = $target.prev('.'+self.get('cls'));
         var val = self.toCnNumber($target.val());
         getSpan.replaceClass(self.get('cellMoneyCls'), self.get('cnMoneyCls'));
-        getSpan.html(val + '<span class="unit">元</span>');
-        getSpan.width((val).length * 24);
+        getSpan.html(val + '元');
         getSpan.fadeIn(0.4);
     },
     /**
@@ -170,7 +167,7 @@ module.exports =  Base.extend({
                     re = BB[7] + re;
                     break;
                 case 4:
-                    if (!new RegExp("0{4}\\d{" + (a[0].length - i - 1) + "}$").test(a[0])) {re = BB[4] + re;}
+                    if (!new RegExp("0{4}\\d{" + (a[0].length - i - 1) + "}$").test(a[0])) re = BB[4] + re;
                     break;
                 case 8:
                     re = BB[5] + re;
@@ -178,13 +175,13 @@ module.exports =  Base.extend({
                     k = 0;
                     break;
             }
-            if (k % 4 == 2 && a[0].charAt(i) == "0" && a[0].charAt(i + 1) != "0") {re = AA[0] + re;}
-            if (a[0].charAt(i) != 0) {re = AA[a[0].charAt(i)] + BB[k % 4] + re;}
+            if (k % 4 == 2 && a[0].charAt(i) == "0" && a[0].charAt(i + 2) != "0") re = AA[0] + re;
+            if (a[0].charAt(i) != 0) re = AA[a[0].charAt(i)] + BB[k % 4] + re;
             k++;
         }
         if (a.length > 1) {
             re += BB[6];
-            for (var i = 0; i < a[1].length; i++) {re += AA[a[1].charAt(i)];}
+            for (var i = 0; i < a[1].length; i++) re += AA[a[1].charAt(i)];
         }
 
         return re;

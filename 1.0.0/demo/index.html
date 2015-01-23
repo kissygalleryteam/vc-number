@@ -2,18 +2,11 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
-    <meta name="apple-mobile-web-app-capable" content="yes"/> <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
-    <meta name="format-detection" content="telephone=no"/>
     <title>VcNumber的demo</title>
     <script src="http://g.tbcdn.cn/kissy/k/1.4.8/seed-min.js" charset="utf-8"></script>
     <style type="text/css">
         .line{
             margin: 35px 0;
-        }
-        .line label{
-            display:block;
-            margin-bottom: 5px;
         }
     </style>
 </head>
@@ -22,24 +15,19 @@
 <div class="container">
     <div id="content">
         <div class="line">
-            <label for="J_1">带小数点</label>
-            <input type="text" value="40.00" class="vc-number" data-range="2.00" data-max="9999999.00" data-min="1" id="J_1">
+            <input type="text" value="40.00" class="vc-number" data-range="2.00" data-max="9999999.00" data-min="1" data-hasdecimal="true">
         </div>
         <div class="line">
-            <label for="J_2">不带小数点</label>
-            <input type="text" value="60" class="vc-number" data-range="12.00" data-max="88.00" data-min="10" data-hasdecimal="false" id="J_2">
+            <input type="text" value="60" class="vc-number" data-range="12.00" data-max="88.00" data-min="10">
         </div>
         <div class="line">
-            <label for="J_3">滑动效果</label>
-            <input type="text" value="60" class="vc-number-slide" id="J_3">
+            <input type="text" value="60" class="vc-number-slide">
         </div>
         <div class="line">
-            <label for="J_4">中文提示1</label>
-            <input type="text" value="60.00" class="vc-number-ch" id="J_4">
+            <input type="text" value="60" class="vc-number-ch" >
         </div>
         <div class="line">
-            <label for="J_4">中文提示2</label>
-            <input type="text" value="60" class="vc-number-ch2" id="J_5">
+            <input type="text" value="60" class="vc-number-ch2" >
         </div>
     </div>
 </div>
@@ -58,14 +46,13 @@
         });
     }
 
-    S.use('kg/vc-number/1.0.0/index,kg/vc-number/1.0.0/index.css', function (S, VcNumber) {
+    S.use('kg/vc-number/1.0.0/index,kg/vc-number/1.0.0/arrow.css', function (S, VcNumber) {
         var number = new VcNumber({
             $target: '.vc-number',
             range: 2,
             max: 88,
             min: 1,
-            hasDecimal: true,
-            showRange: true
+            hasDecimal: true
         });
 
         number.render();
@@ -77,8 +64,7 @@
                 range: 2,
                 max: 888,
                 min: 1,
-                hasDecimal: false,
-                showRange: true
+                hasDecimal: false
             });
 
             number2.render();
@@ -93,7 +79,7 @@
                 range: 1000,
                 max: 999999999,
                 min: 1,
-                hasDecimal: true
+                hasDecimal: false
             });
 
             number2.render();
@@ -106,9 +92,7 @@
                 range: 1000,
                 max: 999999999,
                 min: 1,
-                hasDecimal: false,
-                showRange: true
-
+                hasDecimal: true
             });
 
             number3.render();
