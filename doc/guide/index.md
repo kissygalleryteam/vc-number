@@ -14,7 +14,7 @@ VcNumber。
 
 ## API说明
 
-提供两种皮肤：'kg/vc-number/1.0.0/index.css', 'kg/vc-number/1.0.0/arrow.css'
+    > 提供两种皮肤：'kg/vc-number/1.0.0/index.css', 'kg/vc-number/1.0.0/arrow.css'
 
 ### 默认配置
 
@@ -48,7 +48,7 @@ VcNumber。
 | hasDecimal     | 是否显示小数点(两位) |
 | showRange      | 是否显示加减幅度 |
 
-	> 批量初始化的时候，自定义属性*data-range*,*data-max*,*data-min*,会覆盖初始化属性
+	> 批量初始化的时候，DOM里的自定义属性data-range,data-max,data-min,会覆盖初始化属性
 	> 长按加减按钮会自动变换数字
 
 #### 事件说明
