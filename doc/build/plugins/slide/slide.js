@@ -18,9 +18,9 @@ module.exports =  Base.extend({
     },
     pluginDestructor: function(){
         var self = this, vcNumber = self.get('vcNumber');
-        //vcNumber.detach('beforeChange',self.get('beforeChange'));
+        vcNumber.detach('beforeChange',self.get('beforeChange'));
         vcNumber.detach('afterChange',self.get('afterChange'));
-        vcNumber.detach('changing',self.get('changing'));
+        //vcNumber.detach('changing',self.get('changing'));
     },
     _initAttr: function(vcNumber){
         var self = this;
@@ -58,42 +58,38 @@ module.exports =  Base.extend({
 
         };
 
-        var handleChanging = function(e){
+        var handleBeforeChange = function(e){
             var $target = e.input, $trigger = e.trigger,$tranCon = $target.next('.'+slideCls.tranCls);
-            $target.addClass(slideCls.hidCls);
             var val = Number($target.val()),
                 min = parseFloat($target.attr('data-min')) || vcNumber.get('min'),
                 max = parseFloat($target.attr('data-max')) || vcNumber.get('max'),
                 range = Number(S.trim($target.attr('data-range'))) || vcNumber.get('range');
+            $target.addClass(slideCls.hidCls);
+
             //按上键
             if (($trigger.hasClass && $trigger.hasClass(cls.plus)) || $trigger == 38) {
-                if (val + range > max) {
-                    range = max - val;
-                }
+                if(val + range > max) {range = max - val;}
                 if(!range) {
                     $target.removeClass(slideCls.hidCls);
                     $tranCon && $tranCon.remove();
                     return
                 }
 
-                self._renderHtml({top: val, bottom: val - range});
+                self._renderHtml({top: val + range, bottom: val});
                 setTimeout(function(){
                     $target.next().addClass(slideCls.activeCls);
                 },50)
             }
             //按下键
             else if (($trigger.hasClass && $trigger.hasClass(cls.minus)) || $trigger == 40) {
-                if (val - range < min) {
-                    range = val - min;
-                }
-
+                if(val - range < min) {range = val - min;}
                 if(!range) {
                     $target.removeClass(slideCls.hidCls);
                     $tranCon && $tranCon.remove();
                     return;
                 }
 
-                self._renderHtml({top: val + range, bottom: val}, true);
+                self._renderHtml({top: val, bottom: val - range}, true);
                 setTimeout(function(){
                     $target.next().removeClass(slideCls.activeCls);
                 },50)
@@ -101,13 +97,14 @@ module.exports =  Base.extend({
 
         };
 
-        //vcNumber.on('beforeChange',handleBeforeChange);
-        vcNumber.on('afterChange',handleAfterChange);
-        vcNumber.on('changing',handleChanging);
 
-        //self.set('beforeChange',handleBeforeChange);
+        vcNumber.on('beforeChange',handleBeforeChange);
+        vcNumber.on('afterChange',handleAfterChange);
+        //vcNumber.on('changing',handleBeforeChange);
+
+        self.set('beforeChange',handleBeforeChange);
         self.set('afterChange',handleAfterChange);
-        self.set('changing',handleChanging);
+        //self.set('changing',handleChanging);
 
     }
 },{

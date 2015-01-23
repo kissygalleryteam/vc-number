@@ -66,7 +66,7 @@ module.exports =  Base.extend({
             $target.addClass(slideCls.hidCls);
 
             //按上键
-            if ($trigger.hasClass(cls.plus)) {
+            if (($trigger.hasClass && $trigger.hasClass(cls.plus)) || $trigger == 38) {
                 if(val + range > max) {range = max - val;}
                 if(!range) {
                     $target.removeClass(slideCls.hidCls);
@@ -80,7 +80,7 @@ module.exports =  Base.extend({
                 },50)
             }
             //按下键
-            else if ($trigger.hasClass(cls.minus)) {
+            else if (($trigger.hasClass && $trigger.hasClass(cls.minus)) || $trigger == 40) {
                 if(val - range < min) {range = val - min;}
                 if(!range) {
                     $target.removeClass(slideCls.hidCls);

@@ -5,6 +5,8 @@
 @inputFontSize: 20px;
 @disableColor: #ccc;
 @borderWidth: 1px;
+@time: 0.4s;
+
 
 
 body, button, input, select, textarea{
@@ -69,4 +71,23 @@ body, button, input, select, textarea{
   }
 
 
+  .vc-number-range-icon{
+    position: absolute;
+    right: 0;
+    top: -@height*1.5;
+    color: #7f0019;
+    opacity: 1;
+    display: none;
+
+    -webkit-transition: @time all ease-in-out;
+    -moz-transition: @time all ease-in-out;
+    -ms-transition: @time all ease-in-out;
+    -o-transition: @time all ease-in-out;
+  }
+
+  .slideout{
+    height: 0;
+    opacity: 0;
+    top: -@height*2;
+  }
 }
