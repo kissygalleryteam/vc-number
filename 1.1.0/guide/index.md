@@ -157,6 +157,8 @@ type | String|N|'inCells'| 'inCells':中文表格提示;'inWords'：中文提示
     var amountInWords = new AmountInWords();
     amountInWords.addCommas(val);
 
+    > 注意是插件的方法，不是宿主的。
+
 ## changeLog
 +   2015-01-23发布1.0.0版
 +   2015-01-23发布1.1.0，解决一系列小bug
