@@ -65,7 +65,7 @@ showRange | Boolean|N| false| 是否显示加减幅度
 * @return null
 */
 vcNumber.on('beforeChage',function(ev) {
-    var remain = ev.input, trigger = ev.trigger;
+    var $target = ev.input, trigger = ev.trigger;
 })
 ```
 #### afterChange
@@ -78,7 +78,7 @@ vcNumber.on('beforeChage',function(ev) {
 * @return null
 */
 vcNumber.on('afterChange',function(ev) {
-    var remain = ev.input, trigger = ev.trigger;
+    var $target = ev.input, trigger = ev.trigger;
 })
 ```
 
