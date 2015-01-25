@@ -148,7 +148,7 @@ module.exports =  Base.extend({
         var val = self.toCnNumber($target.val());
         getSpan.replaceClass(self.get('cellMoneyCls'), self.get('cnMoneyCls'));
         getSpan.html(val + '<span class="unit">元</span>');
-        getSpan.width((val).length * 24);
+        getSpan.width(((val).length+1) * 20);
         getSpan.fadeIn(0.4);
     },
     /**
