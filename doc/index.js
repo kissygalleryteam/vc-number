@@ -69,7 +69,11 @@ var VcNumber = Base.extend({
         var $input = self.get('$target');
         $input.each(function(node){
             var $sign = node.siblings('.' + getCls.sign);
-            $sign.on('keyup keydown mouseup mousedown touchstart touchend', function(e){
+            var evts = 'keyup keydown mouseup mousedown';
+            if(S.UA.mobile){
+                evts = 'touchstart touchend';
+            }
+            $sign.on(evts, function(e){
                 var $this = $(e.currentTarget), $parent = $this.parent(1), $target = $parent.children('.' + getCls.init), inputValue = Number(S.trim($target.val().replace(/\,/g,''))),
                     range = Number(S.trim($target.attr('data-range'))) || self.get('range'),
                     interval = 1000, intervalCount = 0;
@@ -84,7 +88,7 @@ var VcNumber = Base.extend({
                     self._limitRange(inputValue, $target);
                     self.fire(EV_ON,{input: $target, trigger: $this});
                 };
-                if(e.type == 'keydown' || e.type == 'mousedown'){
+                if(e.type == 'keydown' || e.type == 'mousedown' || e.type == 'touchstart'){
                     changeValue();
                     if(timer) {clearTimeout(timer);}
                     timer = setTimeout(function(){
@@ -97,7 +101,7 @@ var VcNumber = Base.extend({
                         timer = setTimeout(arguments.callee, interval);
                     },interval);
                 }
-                if(e.type == 'keyup' || e.type == 'mouseup'){
+                if(e.type == 'keyup' || e.type == 'mouseup' || e.type == 'touchend'){
                     if(timer) {clearTimeout(timer);}
                     intervalCount = 0;
 
