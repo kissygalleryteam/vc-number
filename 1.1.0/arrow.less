@@ -32,7 +32,15 @@ body, button, input, select, textarea{
     font-size: @inputFontSize;
   }
   input:focus{
-    text-shadow: 0 1px 0 #f3f3f3;
+    /*-webkit-box-shadow: inset 0 1px 0 #f3f3f3;
+    -moz-box-shadow: inset 0 1px 0 #f3f3f3;
+    box-shadow: inset 0 1px 0 #f3f3f3;*/
+  }
+  //隐藏type=number的上下箭头
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
   .vc-number-sign{
     position: absolute;

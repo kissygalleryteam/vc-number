@@ -22,9 +22,12 @@ textarea {
   border: 1px solid #dddddd;
   vertical-align: middle;
   font-size: 20px;
+  border-radius: 0;
 }
-.vc-plus-minus-operation input:focus {
-  text-shadow: 0 1px 0 #f3f3f3;
+.vc-plus-minus-operation input::-webkit-outer-spin-button,
+.vc-plus-minus-operation input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 .vc-plus-minus-operation .vc-number-sign {
   display: inline-block;
