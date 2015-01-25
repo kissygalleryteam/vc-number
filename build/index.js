@@ -1,4 +1,4 @@
-KISSY.add('kg/vc-number/1.0.0/index',["node","base","./plugins/amountInWords/amountInWords"],function(S ,require, exports, module) {
+KISSY.add('kg/vc-number/1.1.0/index',["node","base","./plugins/amountInWords/amountInWords"],function(S ,require, exports, module) {
  var $ = require('node').all;
 var Base = require('base');
 var AmountInWords = require('./plugins/amountInWords/amountInWords');
@@ -9,6 +9,9 @@ var VcNumber = Base.extend({
     initializer:function(){
         var self = this;
         var $target = self.get('$target');
+        if(!$target.length){
+            self.set('$target',$('input[type="text"]'));
+        }
     },
     render: function(){
         var self = this,$target = self.get('$target');
@@ -67,11 +70,10 @@ var VcNumber = Base.extend({
         var $input = self.get('$target');
         $input.each(function(node){
             var $sign = node.siblings('.' + getCls.sign);
-            $sign.on('keyup keydown mouseup mousedown', function(e){
+            $sign.on('keyup keydown mouseup mousedown touchstart touchend', function(e){
                 var $this = $(e.currentTarget), $parent = $this.parent(1), $target = $parent.children('.' + getCls.init), inputValue = Number(S.trim($target.val().replace(/\,/g,''))),
                     range = Number(S.trim($target.attr('data-range'))) || self.get('range'),
                     interval = 1000, intervalCount = 0;
-                self.range = range;
                 var changeValue = function(){
                     if(e.currentTarget.className.indexOf(getCls.plus)> -1 ){
                         inputValue += range;
@@ -105,28 +107,6 @@ var VcNumber = Base.extend({
                 }
 
             });
-
-            if(!self.get('showRange')) return;
-            self.on(EV_AFTER,function(e){
-                var $target = e.input, $trigger = e.trigger, range = self.range;
-                var $rangeEl = $target.siblings('.'+getCls.range), text;
-                if (($trigger.hasClass && $trigger.hasClass(getCls.plus)) || $trigger == 38){
-                    text = '+';
-                }
-                else if (($trigger.hasClass && $trigger.hasClass(getCls.minus)) || $trigger == 40){
-                    text = '-';
-                }
-
-                if($target.siblings('.'+getCls.disabled).length) return;
-                $rangeEl.html(text+range).show();
-                setTimeout(function(){
-                    $rangeEl.addClass(getCls.slideout);
-                },50);
-                setTimeout(function(){
-                    $rangeEl.hide().removeClass(getCls.slideout)
-                },500)
-            });
-
         });
 
         $input.on('keydown keyup',function(e){
@@ -158,24 +138,46 @@ var VcNumber = Base.extend({
 
         });
 
-
+        if(!self.get('showRange')) return;
+        self.on(EV_AFTER,function(e){
+            var $target = e.input, $trigger = e.trigger,
+                range = Number(S.trim($target.attr('data-range'))) || self.get('range');
+            var $rangeEl = $target.siblings('.'+getCls.range), text;
+            if (($trigger.hasClass && $trigger.hasClass(getCls.plus)) || $trigger == 38){
+                text = '+';
+            }
+            else if (($trigger.hasClass && $trigger.hasClass(getCls.minus)) || $trigger == 40){
+                text = '-';
+            }
+            if($target.siblings('.'+getCls.disabled).length || !text) return;
+            $rangeEl.html(text+range).show();
+            setTimeout(function(){
+                $rangeEl.addClass(getCls.slideout);
+            },50);
+            setTimeout(function(){
+                $rangeEl.hide().removeClass(getCls.slideout)
+            },500)
+        });
 
     },
     _eventOnValide: function(){
         var self = this, $target = self.get('$target');
         var oldValue;
-        $target.on('focus',function(){
-            oldValue = $(this).val();
+        $target.each(function(item){
+            item.on('focus',function(){
+                oldValue = $(this).val();
+            });
+            item.on('blur',function(){
+                var $this = $(this);
+                self._formatNum($this);
+                self._limitRange(Number(S.trim($this.val())), $this);
+                /*防止因为blur时同时触发btn的click事件,从而生成不必要的timer*/
+                if(timer) {clearTimeout(timer);}
+                /*触发change事件*/
+                self.fire(EV_AFTER,{input: $target, trigger: $this});
+            });
         });
-        $target.on('blur',function(){
-            var $this = $(this);
-            self._formatNum($this);
-            self._limitRange(Number(S.trim($this.val())), $this);
-            /*防止因为blur时同时触发btn的click事件,从而生成不必要的timer*/
-            if(timer) {clearTimeout(timer);}
-            /*触发change事件*/
-            self.fire(EV_AFTER,{input: $target, trigger: $this});
-        });
+
     },
 
     _toFloat: function(value){
@@ -216,9 +218,11 @@ var VcNumber = Base.extend({
         $target.val(transVal);
         if (inputValue === min) {
             $('.' + getCls.minus, $parent).addClass(getCls.disabled);
+            $('.' + getCls.plus, $parent).removeClass(getCls.disabled);
         }
         else if (inputValue === max) {
             $('.' + getCls.plus, $parent).addClass(getCls.disabled);
+            $('.' + getCls.minus, $parent).removeClass(getCls.disabled);
         }
         else {
             $('.' + getCls.sign, $parent).removeClass(getCls.disabled);

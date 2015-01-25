@@ -11,7 +11,7 @@ var Base = require('base');
 module.exports =  Base.extend({
     pluginInitializer:function(vcNumber){
         var self = this;
-        if(!vcNumber) return;
+        if(!vcNumber || S.UA.ie < 9) return;
         self._initAttr(vcNumber);
         self._bindEvents();
     },
@@ -52,7 +52,7 @@ module.exports =  Base.extend({
             timer && clearTimeout(timer);
             timer = setTimeout(function(){
                 $target.removeClass(slideCls.hidCls);
-                //$tranCon && $tranCon.remove();
+                $tranCon && $tranCon.remove();
             },700)
 
         };

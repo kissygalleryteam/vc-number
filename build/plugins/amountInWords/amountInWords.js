@@ -1,4 +1,4 @@
-KISSY.add('kg/vc-number/1.0.0/plugins/amountInWords/amountInWords',["node","base"],function(S ,require, exports, module) {
+KISSY.add('kg/vc-number/1.1.0/plugins/amountInWords/amountInWords',["node","base"],function(S ,require, exports, module) {
  /**
  * @fileoverview  中文提示插件
  * @author 易敛 <yilian.wj@taobao.com>
@@ -25,6 +25,8 @@ module.exports =  Base.extend({
         var self = this, vcNumber = self.get('vcNumber');
         vcNumber.detach('beforeChange',self.get('beforeChange'));
         vcNumber.detach('afterChange',self.get('afterChange'));
+        var $pluginHtml = vcNumber.get('$target').siblings('.'+self.get('cls'));
+        $pluginHtml.length && $pluginHtml.remove();
     },
     _renderHtml: function(){
         var self = this, $target = self.get('$target'), moneyTpl = self.get('moneyTpl');
