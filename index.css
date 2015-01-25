@@ -24,6 +24,11 @@ textarea {
   font-size: 20px;
   border-radius: 0;
 }
+.vc-plus-minus-operation input::-webkit-outer-spin-button,
+.vc-plus-minus-operation input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 .vc-plus-minus-operation .vc-number-sign {
   display: inline-block;
   text-align: center;

@@ -15,7 +15,7 @@ var VcNumber = Base.extend({
     },
     render: function(){
         var self = this,$target = self.get('$target');
-        if(!$target.length || self._isNativeSpinBox()) return false;
+        if(!$target.length) return false;
 
         //增加ks-spinbox样式
         var boxCls = self.get('cls').init;
@@ -32,7 +32,7 @@ var VcNumber = Base.extend({
     _isNativeSpinBox: function(){
         var self = this, $target = self.get('$target');
         if($target.attr('type') == 'number'){
-            //return true;
+            return true;
         }
         else {
             return false;
