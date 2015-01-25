@@ -70,7 +70,7 @@ var VcNumber = Base.extend({
         var $input = self.get('$target');
         $input.each(function(node){
             var $sign = node.siblings('.' + getCls.sign);
-            $sign.on('keyup keydown mouseup mousedown', function(e){
+            $sign.on('keyup keydown mouseup mousedown touchstart touchend', function(e){
                 var $this = $(e.currentTarget), $parent = $this.parent(1), $target = $parent.children('.' + getCls.init), inputValue = Number(S.trim($target.val().replace(/\,/g,''))),
                     range = Number(S.trim($target.attr('data-range'))) || self.get('range'),
                     interval = 1000, intervalCount = 0;
@@ -218,9 +218,11 @@ var VcNumber = Base.extend({
         $target.val(transVal);
         if (inputValue === min) {
             $('.' + getCls.minus, $parent).addClass(getCls.disabled);
+            $('.' + getCls.plus, $parent).removeClass(getCls.disabled);
         }
         else if (inputValue === max) {
             $('.' + getCls.plus, $parent).addClass(getCls.disabled);
+            $('.' + getCls.minus, $parent).removeClass(getCls.disabled);
         }
         else {
             $('.' + getCls.sign, $parent).removeClass(getCls.disabled);

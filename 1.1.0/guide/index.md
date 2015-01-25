@@ -82,7 +82,7 @@ vcNumber.on('afterChange',function(ev) {
 })
 ```
 
-## 滑动效果插件
+## 滑动效果插件(CSS3)
 
 ### 代码
     S.use('kg/vc-number/1.1.0/plugins/slide/slide,kg/vc-number/1.1.0/plugins/slide/slide.css',function(S, Slide){
@@ -101,6 +101,8 @@ vcNumber.on('afterChange',function(ev) {
 
             })
     })
+
+    > 利用css3属性，IE8+
 
 ### 属性配置
    无
