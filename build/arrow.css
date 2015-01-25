@@ -28,11 +28,6 @@ textarea {
     -moz-box-shadow: inset 0 1px 0 #f3f3f3;
     box-shadow: inset 0 1px 0 #f3f3f3;*/
 }
-.vc-plus-minus-operation input::-webkit-outer-spin-button,
-.vc-plus-minus-operation input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
 .vc-plus-minus-operation .vc-number-sign {
   position: absolute;
   text-align: center;
