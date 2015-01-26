@@ -85,7 +85,10 @@ var VcNumber = Base.extend({
                     else if(e.currentTarget.className.indexOf(getCls.minus)>-1){
                         inputValue -= range;
                     }
-                    self.fire(EV_BEFORE,{input: $target, trigger: $this});
+                    var evBack = self.fire(EV_BEFORE,{input: $target, trigger: $this});
+                    if(evBack == false){
+                        return;
+                    }
                     self._limitRange(inputValue, $target);
                     self.fire(EV_ON,{input: $target, trigger: $this});
                 };
@@ -125,7 +128,10 @@ var VcNumber = Base.extend({
                 else if(e.keyCode === 40){
                     inputValue -= range;
                 }
-                self.fire(EV_BEFORE,{input: $target, trigger: e.keyCode});
+                var evBack = self.fire(EV_BEFORE,{input: $target, trigger: e.keyCode});
+                if(evBack == false){
+                    return;
+                }
                 self._limitRange(inputValue, $target);
                 self.fire(EV_ON,{input: $target, trigger: e.keyCode});
             };
