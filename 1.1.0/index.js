@@ -77,6 +77,7 @@ var VcNumber = Base.extend({
                 var $this = $(e.currentTarget), $parent = $this.parent(1), $target = $parent.children('.' + getCls.init), inputValue = Number(S.trim($target.val().replace(/\,/g,''))),
                     range = Number(S.trim($target.attr('data-range'))) || self.get('range'),
                     interval = 1000, intervalCount = 0;
+                var evBack = true;
                 var changeValue = function(){
                     if(e.currentTarget.className.indexOf(getCls.plus)> -1 ){
                         inputValue += range;
@@ -84,7 +85,8 @@ var VcNumber = Base.extend({
                     else if(e.currentTarget.className.indexOf(getCls.minus)>-1){
                         inputValue -= range;
                     }
-                    var evBack = self.fire(EV_BEFORE,{input: $target, trigger: $this});
+                    evBack = self.fire(EV_BEFORE,{input: $target, trigger: $this});
+                    self.set('evBack',evBack);
                     if(evBack == false){
                         return;
                     }
@@ -109,6 +111,9 @@ var VcNumber = Base.extend({
                     intervalCount = 0;
 
                     /*触发change事件*/
+                    if(self.get('evBack') == false){
+                        return;
+                    }
                     self.fire(EV_AFTER,{input: $target, trigger: $this});
                 }
 
@@ -118,6 +123,7 @@ var VcNumber = Base.extend({
         $input.on('keydown keyup',function(e){
             var $target = $(e.currentTarget), inputValue = Number(S.trim($target.val().replace(/\,/g,''))),
                 range = Number(S.trim($target.attr('data-range'))) || self.get('range');
+            var evBack = true;
             var changeValue = function(){
                 //向上键
                 if(e.keyCode === 38){
@@ -127,7 +133,8 @@ var VcNumber = Base.extend({
                 else if(e.keyCode === 40){
                     inputValue -= range;
                 }
-                var evBack = self.fire(EV_BEFORE,{input: $target, trigger: e.keyCode});
+                evBack = self.fire(EV_BEFORE,{input: $target, trigger: e.keyCode});
+                self.set('evBack',evBack);
                 if(evBack == false){
                     return;
                 }
@@ -140,6 +147,9 @@ var VcNumber = Base.extend({
                     changeValue();
                 }
                 if(e.type == 'keyup'){
+                    if(self.get('evBack') == false){
+                        return;
+                    }
                     /*触发change事件*/
                     self.fire(EV_AFTER,{input: $target, trigger: e.keyCode});
                 }
@@ -182,6 +192,9 @@ var VcNumber = Base.extend({
                 self._limitRange(Number(S.trim($this.val())), $this);
                 /*防止因为blur时同时触发btn的click事件,从而生成不必要的timer*/
                 if(timer) {clearTimeout(timer);}
+                if(self.get('evBack') == false){
+                    return;
+                }
                 /*触发change事件*/
                 self.fire(EV_AFTER,{input: $target, trigger: $this});
             });
@@ -262,6 +275,9 @@ var VcNumber = Base.extend({
         },
         hasDecimal: {
             value: false
+        },
+        evBack: {
+            value: true
         },
         /**
          * 一组样式名
