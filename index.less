@@ -1,0 +1,101 @@
+@width: 30px;
+@height: 30px;
+@fontSize: 30px;
+@inputHeight: 34px;
+@inputFontSize: 20px;
+@disableColor: #ccc;
+@borderWidth: 1px;
+@time: 0.4s;
+
+
+
+body, button, input, select, textarea{
+  font-family: tahoma,arial,'Hiragino Sans GB',SimSun,sans-serif;
+}
+
+.vc-plus-minus-operation{
+  position: relative;
+  display: inline-block;
+  height: @inputHeight+2*@borderWidth;
+  a{
+    text-decoration: none;
+  }
+  input{
+    margin: 0;
+    padding:0;
+    height: @inputHeight;
+    line-height: @inputHeight;
+    text-align: center;
+    border: @borderWidth solid #ddd;
+    vertical-align: middle;
+    font-size: @inputFontSize;
+    border-radius: 0;
+  }
+  input:focus{
+//    box-shadow: 0 1px 0 #f3f3f3;
+  }
+  //隐藏type=number的上下箭头
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .vc-number-sign{
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    height: @height;
+    line-height: @height+(-3);
+    font-size: @fontSize;
+    width: @width;
+    padding: 3px;
+    background-color: #f6f6f6;
+    color: #333;
+    text-shadow: 0 1px 0 #f3f3f3;
+    position: relative;
+    z-index: 10;
+  }
+  .vc-number-sign:hover{
+    background-color: #ededed;
+    border-color: #ddd;
+    color: #333;
+    text-shadow: 0 1px 0 #f3f3f3;
+  }
+
+  .vc-number-disabled{
+    cursor: not-allowed;
+    .vc-number-minus-sign{
+      color: @disableColor;
+      border-color:@disableColor transparent transparent transparent;
+    }
+    .vc-number-plus-sign{
+      color: @disableColor;
+      border-color:transparent transparent @disableColor transparent;
+    }
+  }
+  .vc-number-disabled:hover{
+    background-color: #f6f6f6;
+  }
+
+
+  .vc-number-range-icon{
+    position: absolute;
+    right: 0;
+    top: -@height*1.7;
+    color: #7f0019;
+    opacity: 1;
+    display: none;
+    font-size: 20px;
+
+    -webkit-transition: @time all ease-in-out;
+    -moz-transition: @time all ease-in-out;
+    -ms-transition: @time all ease-in-out;
+    -o-transition: @time all ease-in-out;
+  }
+
+  .slideout{
+    height: 0;
+    opacity: 0;
+    top: -@height*2.2;
+  }
+}

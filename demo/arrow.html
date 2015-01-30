@@ -1,0 +1,311 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/> <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>VcNumber的demo</title>
+    <link rel="stylesheet" href="http://kpm.taobao.net/vc-pagination/doc/demo/header.css" />
+    <script src="http://g.tbcdn.cn/kissy/k/1.4.8/seed-min.js" charset="utf-8"></script>
+    <style>
+        body {
+            margin: 20px;
+        }
+        h2 {
+            margin: 20px 0;
+            font-size: 24px;
+        }
+        h3 {
+            margin: 10px 0;
+            font-size: 20px;
+            font-weight: normal;
+        }
+        .link{
+            margin: 35px;
+        }
+        .box {
+            margin: 35px;
+        }
+        summary {
+            margin: 5px 0;
+            font-size: 16px;
+            font-weight: normal;
+            color: #999;
+        }
+        pre {
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border: 1px dotted #f40;
+        }
+        .clearfix {
+            zoom: 1;
+            clear: none !important;
+        }
+
+        .clearfix:after {
+            content: "";
+            clear: both;
+            display: block !important;
+            height: 0;
+        }
+    </style>
+</head>
+<body>
+<h2>VcNumber的demo</h2>
+<h3><a href="./index.html" class="link" target="_blank">返回</a></h3>
+<div class="container">
+    <div id="content">
+        <div class="box">
+            <h3><label for="J_1">1.带小数点</label></h3>
+            <details  open="open">
+                <summary>效果</summary>
+                <input type="text" value="40.00" class="vc-number" data-range="2.00" data-max="9999999.00" data-min="1" id="J_1">
+            </details>
+            <details>
+                <summary>代码</summary>
+                <pre class="code">
+                    S.use('kg/vc-number/1.2.0/index,kg/vc-number/1.2.0/arrow.css', function (S, VcNumber) {
+                            var number = new VcNumber({
+                                $target: '.vc-number',
+                                range: 2,
+                                max: 88,
+                                min: 1,
+                                hasDecimal: true,
+                                showRange: true
+                            }).on('afterChange',function(e){
+                                var $target = e.input;
+                                alert($target.val());
+                            });
+
+                            number.render();
+                    })
+                </pre>
+            </details>
+        </div>
+
+        <div class="box">
+            <h3><label for="J_2">2.不带小数点</label></h3>
+            <details  open="open">
+                <summary>效果</summary>
+                <input type="text" value="60" class="vc-number" data-range="12.00" data-max="88.00" data-min="10" data-hasdecimal="false" id="J_2">
+            </details>
+            <details>
+                <summary>代码</summary>
+                <pre class="code">
+                    S.use('kg/vc-number/1.2.0/index,kg/vc-number/1.2.0/arrow.css', function (S, VcNumber) {
+                            var number = new VcNumber({
+                                $target: '.vc-number',
+                                range: 2,
+                                max: 88,
+                                min: 1,
+                                hasDecimal: false,
+                                showRange: true
+                            }).on('afterChange',function(e){
+                                var $target = e.input;
+                                alert($target.val());
+                            });
+
+                            number.render();
+                    })
+                </pre>
+            </details>
+        </div>
+        <div class="box">
+            <h3><label for="J_3">3.滑动效果</label></h3>
+            <details  open="open">
+                <summary>效果</summary>
+                <input type="text" value="60" class="vc-number-slide" id="J_3">
+            </details>
+            <details>
+                <summary>代码</summary>
+                <pre class="code">
+                    S.use('kg/vc-number/1.2.0/plugins/slide/slide,kg/vc-number/1.2.0/plugins/slide/slide.css',function(S, Slide){
+                        var number2 = new VcNumber({
+                            $target: '.vc-number-slide',
+                            range: 2,
+                            max: 888,
+                            min: 1,
+                            hasDecimal: false,
+                            showRange: true
+                        });
+
+                        number2.render();
+
+                        number2.plug(new Slide());
+
+                         })
+                    })
+                </pre>
+            </details>
+        </div>
+        <div class="box">
+            <h3><label for="J_4">4.中文提示1</label></h3>
+            <details  open="open">
+                <summary>效果</summary>
+                <input type="text" value="60.00" class="vc-number-ch" id="J_4">
+            </details>
+            <details>
+                <summary>代码</summary>
+                <pre class="code">
+                    S.use('kg/vc-number/1.2.0/plugins/amountInWords/amountInWords,kg/vc-number/1.2.0/plugins/amountInWords/amountInWords.css',function(S, AmountInWords){
+                        var number2 = new VcNumber({
+                            $target: '.vc-number-ch',
+                            range: 1000,
+                            max: 999999999,
+                            min: 1,
+                            hasDecimal: true
+                        });
+
+                        number2.render();
+
+                        number2.plug(new AmountInWords());
+
+                    })
+                </pre>
+            </details>
+        </div>
+        <div class="box">
+            <h3><label for="J_4">5.中文提示2</label></h3>
+            <details  open="open">
+                <summary>效果</summary>
+                <input type="text" value="60" class="vc-number-ch2" id="J_5">
+            </details>
+            <details>
+                <summary>代码</summary>
+                <pre class="code">
+                    S.use('kg/vc-number/1.2.0/plugins/amountInWords/amountInWords,kg/vc-number/1.2.0/plugins/amountInWords/amountInWords.css',function(S, AmountInWords){
+                        /*换种中文提示方式*/
+                        var number3 = new VcNumber({
+                            $target: '.vc-number-ch2',
+                            range: 1000,
+                            max: 999999999,
+                            min: 1,
+                            hasDecimal: false,
+                            showRange: true
+
+                        });
+
+                        number3.render();
+
+                        number3.plug(new AmountInWords({type: 'inWords'}));
+
+                    })
+                </pre>
+            </details>
+        </div>
+        <div class="box">
+            <h3><label for="J_5">6.移动设备</label></h3>
+            <details  open="open">
+                <summary>效果</summary>
+                <input type="number" value="60" class="vc-number-mobile" data-range="12.00" data-max="88.00" data-min="10" data-hasdecimal="false" id="J_5">
+            </details>
+            <details>
+                <summary>代码</summary>
+                <pre class="code">
+                    S.use('kg/vc-number/1.2.0/index,kg/vc-number/1.2.0/arrow.css', function (S, VcNumber) {
+                            var number4 = new VcNumber({
+                            $target: '.vc-number-mobile',
+                            range: 2,
+                            max: 88,
+                            min: 1,
+                            hasDecimal: true,
+                            showRange: true
+                        });
+
+                        number4.render();
+                    })
+                </pre>
+            </details>
+        </div>
+    </div>
+</div>
+<script>
+    var S = KISSY;
+    if (S.Config.debug) {
+        var debugPath = "http://localhost:8787/";
+        S.config({
+            packages:[
+                {
+                    name:"kg/vc-number/1.2.0",
+                    path:debugPath,
+                    charset:"utf-8"
+                }
+            ]
+        });
+    }
+
+    S.use('kg/vc-number/1.2.0/index,kg/vc-number/1.2.0/arrow.css', function (S, VcNumber) {
+        var number = new VcNumber({
+            $target: '.vc-number',
+            range: 2,
+            max: 88,
+            min: 1,
+            hasDecimal: true,
+            showRange: true
+        });
+
+        number.render();
+
+
+        S.use('kg/vc-number/1.2.0/plugins/slide/slide,kg/vc-number/1.2.0/plugins/slide/slide.css',function(S, Slide){
+            var number2 = new VcNumber({
+                $target: '.vc-number-slide',
+                range: 2,
+                max: 888,
+                min: 1,
+                hasDecimal: false,
+                showRange: true
+            });
+
+            number2.render();
+
+            number2.plug(new Slide());
+
+        });
+
+        S.use('kg/vc-number/1.2.0/plugins/amountInWords/amountInWords,kg/vc-number/1.2.0/plugins/amountInWords/amountInWords.css',function(S, AmountInWords){
+            var number2 = new VcNumber({
+                $target: '.vc-number-ch',
+                range: 1000,
+                max: 999999999,
+                min: 1,
+                hasDecimal: true
+            });
+
+            number2.render();
+
+            number2.plug(new AmountInWords());
+
+            /*换种中文提示方式*/
+            var number3 = new VcNumber({
+                $target: '.vc-number-ch2',
+                range: 1000,
+                max: 999999999,
+                min: 1,
+                hasDecimal: false,
+                showRange: true
+
+            });
+
+            number3.render();
+
+            number3.plug(new AmountInWords({type: 'inWords'}));
+
+        })
+
+        var number4 = new VcNumber({
+            $target: '.vc-number-mobile',
+            range: 2,
+            max: 88,
+            min: 1,
+            hasDecimal: true,
+            showRange: true
+        });
+
+        number4.render();
+    })
+</script>
+</body>
+</html>
+
