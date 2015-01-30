@@ -6,7 +6,7 @@ VcNumber。
 
 支持部分键盘操作，按上下键可切换数字
 
-![http://gtms02.alicdn.com/tps/i2/TB133zfGVXXXXbYXXXXDFelTVXX-520-200.png](http://gtms02.alicdn.com/tps/i2/TB133zfGVXXXXbYXXXXDFelTVXX-520-200.png)
+![VC-LOGO](http://gtms02.alicdn.com/tps/i2/TB1DApgHXXXXXbOXXXXFvIM3VXX-434-180.png)
 
 ## 初始化组件
 		
