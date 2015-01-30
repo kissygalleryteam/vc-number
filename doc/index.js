@@ -1,13 +1,15 @@
 var $ = require('node').all;
 var Base = require('base');
 var AmountInWords = require('./plugins/amountInWords/amountInWords');
-var timer = '', amountInWords = new AmountInWords();
+var amountInWords = new AmountInWords();
 var EV_BEFORE = 'beforeChange', EV_AFTER = 'afterChange', EV_ON = 'changing';
 
 var VcNumber = Base.extend({
     initializer:function(){
         var self = this;
         var $target = self.get('$target');
+        self.timer = undefined;
+        self.range = self.get('range');
         if(!$target.length){
             self.set('$target',$('input[type="text"]'));
         }
@@ -67,46 +69,66 @@ var VcNumber = Base.extend({
     _eventOnChangeNum: function(){
         var self = this,  getCls = self.get('cls');
         var $input = self.get('$target');
+        var evts = 'keyup keydown mouseup mousedown';
+        if(S.UA.mobile){
+            evts = 'touchstart touchend';
+        }
         $input.each(function(node){
             var $sign = node.siblings('.' + getCls.sign);
-            var evts = 'keyup keydown mouseup mousedown';
-            if(S.UA.mobile){
-                evts = 'touchstart touchend';
-            }
+            var timer ;
             $sign.on(evts, function(e){
                 var $this = $(e.currentTarget), $parent = $this.parent(1), $target = $parent.children('.' + getCls.init), inputValue = Number(S.trim($target.val().replace(/\,/g,''))),
                     range = Number(S.trim($target.attr('data-range'))) || self.get('range'),
                     interval = 1000, intervalCount = 0;
+                var evBack = true;
                 var changeValue = function(){
-                    if(e.currentTarget.className.indexOf(getCls.plus)> -1 ){
+                    var cls = e.currentTarget.className;
+                    if(cls && cls.indexOf(getCls.disabled) > -1){
+                        self.set('isLimit',true);
+                    }
+                    if(cls && cls.indexOf(getCls.plus)> -1 ){
                         inputValue += range;
                     }
-                    else if(e.currentTarget.className.indexOf(getCls.minus)>-1){
+                    else if(cls && cls.indexOf(getCls.minus)>-1){
                         inputValue -= range;
                     }
-                    self.fire(EV_BEFORE,{input: $target, trigger: $this});
-                    self._limitRange(inputValue, $target);
+                    evBack = self.fire(EV_BEFORE,{input: $target, trigger: $this});
+                    self.set('evBack',evBack);
+                    if(evBack == false){
+                        return;
+                    }
+                    self._limitRange(inputValue, $target, range);
                     self.fire(EV_ON,{input: $target, trigger: $this});
                 };
                 if(e.type == 'keydown' || e.type == 'mousedown' || e.type == 'touchstart'){
-                    changeValue();
-                    if(timer) {clearTimeout(timer);}
+                    timer && clearTimeout(timer);
                     timer = setTimeout(function(){
+                        console.log(e.type);
                         changeValue();
-                        interval = 150;
-                        intervalCount ++ ;
-                        if(intervalCount > 10){
-                            interval = 100;
-                        }
-                        timer = setTimeout(arguments.callee, interval);
-                    },interval);
+                        if(self.timer) {clearTimeout(self.timer);}
+                        self.timer = setTimeout(function(){
+                            changeValue();
+                            interval = 150;
+                            intervalCount ++ ;
+                            if(intervalCount > 10){
+                                interval = 100;
+                            }
+                            self.timer = setTimeout(arguments.callee, interval);
+                        },interval);
+                    },10);
                 }
                 if(e.type == 'keyup' || e.type == 'mouseup' || e.type == 'touchend'){
-                    if(timer) {clearTimeout(timer);}
-                    intervalCount = 0;
+                    setTimeout(function(){
+                        console.log(e.type);
+                        clearTimeout(self.timer);
+                        intervalCount = 0;
 
-                    /*触发change事件*/
-                    self.fire(EV_AFTER,{input: $target, trigger: $this});
+                        /*触发change事件*/
+                        if(self.get('evBack') == false || self.get('isLimit')){
+                            return;
+                        }
+                        self.fire(EV_AFTER,{input: $target, trigger: $this, range: self.range});
+                    },10)
                 }
 
             });
@@ -115,6 +137,7 @@ var VcNumber = Base.extend({
         $input.on('keydown keyup',function(e){
             var $target = $(e.currentTarget), inputValue = Number(S.trim($target.val().replace(/\,/g,''))),
                 range = Number(S.trim($target.attr('data-range'))) || self.get('range');
+            var evBack = true;
             var changeValue = function(){
                 //向上键
                 if(e.keyCode === 38){
@@ -124,8 +147,12 @@ var VcNumber = Base.extend({
                 else if(e.keyCode === 40){
                     inputValue -= range;
                 }
-                self.fire(EV_BEFORE,{input: $target, trigger: e.keyCode});
-                self._limitRange(inputValue, $target);
+                evBack = self.fire(EV_BEFORE,{input: $target, trigger: e.keyCode});
+                self.set('evBack',evBack);
+                if(evBack == false){
+                    return;
+                }
+                self._limitRange(inputValue, $target, range);
                 self.fire(EV_ON,{input: $target, trigger: e.keyCode});
             };
 
@@ -134,8 +161,11 @@ var VcNumber = Base.extend({
                     changeValue();
                 }
                 if(e.type == 'keyup'){
+                    if(self.get('evBack') == false || self.get('isLimit')){
+                        return;
+                    }
                     /*触发change事件*/
-                    self.fire(EV_AFTER,{input: $target, trigger: e.keyCode});
+                    self.fire(EV_AFTER,{input: $target, trigger: e.keyCode, range: self.range});
                 }
             }
 
@@ -144,7 +174,7 @@ var VcNumber = Base.extend({
         if(!self.get('showRange')) return;
         self.on(EV_AFTER,function(e){
             var $target = e.input, $trigger = e.trigger,
-                range = Number(S.trim($target.attr('data-range'))) || self.get('range');
+                range = e.range;
             var $rangeEl = $target.siblings('.'+getCls.range), text;
             if (($trigger.hasClass && $trigger.hasClass(getCls.plus)) || $trigger == 38){
                 text = '+';
@@ -152,7 +182,7 @@ var VcNumber = Base.extend({
             else if (($trigger.hasClass && $trigger.hasClass(getCls.minus)) || $trigger == 40){
                 text = '-';
             }
-            if($target.siblings('.'+getCls.disabled).length || !text) return;
+            if(self.get('isLimit') || !text) return;
             $rangeEl.html(text+range).show();
             setTimeout(function(){
                 $rangeEl.addClass(getCls.slideout);
@@ -172,12 +202,17 @@ var VcNumber = Base.extend({
             });
             item.on('blur',function(){
                 var $this = $(this);
+                var range = Number(S.trim($this.attr('data-range'))) || self.get('range');
+
                 self._formatNum($this);
-                self._limitRange(Number(S.trim($this.val())), $this);
+                self._limitRange(Number(S.trim($this.val())), $this, range);
                 /*防止因为blur时同时触发btn的click事件,从而生成不必要的timer*/
-                if(timer) {clearTimeout(timer);}
+                if(self.timer) {clearTimeout(self.timer);}
+                if(self.get('evBack') == false || self.get('isLimit')){
+                    return;
+                }
                 /*触发change事件*/
-                self.fire(EV_AFTER,{input: $target, trigger: $this});
+                self.fire(EV_AFTER,{input: $target, trigger: $this, range: self.get('range')});
             });
         });
 
@@ -203,8 +238,9 @@ var VcNumber = Base.extend({
      * [_limitRange 控制输入数值的大小在最大值与最小值之间]
      * @param  {[Number]} value [输入框的值]
      * @param  {[NodeList]} target [文本框对象]
+     * @param  {[Number]} range [增减幅度]
      */
-    _limitRange : function(value, target){
+    _limitRange : function(value, target, range){
         var self = this, $target = target, $parent = $target.parent(1), _toFloat = self._toFloat,getCls = self.get('cls'),
             min = _toFloat($target.attr('data-min')) || self.get('min'),
             max = _toFloat($target.attr('data-max')) || self.get('max'),
@@ -220,15 +256,22 @@ var VcNumber = Base.extend({
         }
         $target.val(transVal);
         if (inputValue === min) {
+            //self.set('range',range - min + value);
+            self.range = range - min + value;
             $('.' + getCls.minus, $parent).addClass(getCls.disabled);
             $('.' + getCls.plus, $parent).removeClass(getCls.disabled);
         }
         else if (inputValue === max) {
+            //self.set('range',range - value + max);
+            self.range = range - value + max;
             $('.' + getCls.plus, $parent).addClass(getCls.disabled);
             $('.' + getCls.minus, $parent).removeClass(getCls.disabled);
         }
         else {
             $('.' + getCls.sign, $parent).removeClass(getCls.disabled);
+            self.set('isLimit',false);
+            //self.set('range', range);
+            self.range = range;
         }
     }
 },{
@@ -256,6 +299,18 @@ var VcNumber = Base.extend({
         },
         hasDecimal: {
             value: false
+        },
+        /**
+        * 是否达到临界值
+        * */
+        isLimit: {
+            value: false
+        },
+        /**
+         * 事件监听函数返回值
+         * **/
+        evBack: {
+            value: true
         },
         /**
          * 一组样式名

@@ -55,7 +55,7 @@
         S.config({
             packages:[
                 {
-                    name:"kg/vc-number/1.1.0",
+                    name:"kg/vc-number/1.2.0",
                     path:debugPath,
                     charset:"utf-8"
                 }
@@ -63,7 +63,7 @@
         });
     }
 
-    S.use('kg/vc-number/1.1.0/index,kg/vc-number/1.1.0/arrow.css', function (S, VcNumber) {
+    S.use('kg/vc-number/1.2.0/index,kg/vc-number/1.2.0/arrow.css', function (S, VcNumber) {
         var number = new VcNumber({
             $target: '.vc-number',
             range: 2,
@@ -76,7 +76,7 @@
         number.render();
 
 
-        S.use('kg/vc-number/1.1.0/plugins/slide/slide,kg/vc-number/1.1.0/plugins/slide/slide.css',function(S, Slide){
+        S.use('kg/vc-number/1.2.0/plugins/slide/slide,kg/vc-number/1.2.0/plugins/slide/slide.css',function(S, Slide){
             var number2 = new VcNumber({
                 $target: '.vc-number-slide',
                 range: 2,
@@ -92,7 +92,7 @@
 
         });
 
-        S.use('kg/vc-number/1.1.0/plugins/amountInWords/amountInWords,kg/vc-number/1.1.0/plugins/amountInWords/amountInWords.css',function(S, AmountInWords){
+        S.use('kg/vc-number/1.2.0/plugins/amountInWords/amountInWords,kg/vc-number/1.2.0/plugins/amountInWords/amountInWords.css',function(S, AmountInWords){
             var number2 = new VcNumber({
                 $target: '.vc-number-ch',
                 range: 1000,

@@ -10,12 +10,12 @@ VcNumber。
 
 ## 初始化组件
 		
-    S.use('kg/vc-number/1.1.0/index,kg/vc-number/1.1.0/index.css', function (S, VcNumber) {
+    S.use('kg/vc-number/1.2.0/index,kg/vc-number/1.2.0/index.css', function (S, VcNumber) {
          var vcNumber = new VcNumber();
          vcNumber.render();
     })
 
-    > 提供两种皮肤：'kg/vc-number/1.1.0/index.css', 'kg/vc-number/1.1.0/arrow.css'
+    > 提供两种皮肤：'kg/vc-number/1.2.0/index.css', 'kg/vc-number/1.2.0/arrow.css'
 
 ## 默认配置
 
@@ -23,7 +23,7 @@ VcNumber。
 
     <input type="text" value="40.00" class="vc-number" data-range="2.00" data-max="9999999.00" data-min="1" id="J_1">
 
-    S.use('kg/vc-number/1.1.0/index,kg/vc-number/1.1.0/index.css', function (S, VcNumber) {
+    S.use('kg/vc-number/1.2.0/index,kg/vc-number/1.2.0/index.css', function (S, VcNumber) {
             var number = new VcNumber({
                 $target: '.vc-number',
                 range: 2,
@@ -85,7 +85,7 @@ vcNumber.on('afterChange',function(ev) {
 ## 滑动效果插件(CSS3)
 
 ### 代码
-    S.use('kg/vc-number/1.1.0/plugins/slide/slide,kg/vc-number/1.1.0/plugins/slide/slide.css',function(S, Slide){
+    S.use('kg/vc-number/1.2.0/plugins/slide/slide,kg/vc-number/1.2.0/plugins/slide/slide.css',function(S, Slide){
                 var number2 = new VcNumber({
                     $target: '.vc-number-slide',
                     range: 2,
@@ -110,7 +110,7 @@ vcNumber.on('afterChange',function(ev) {
 ## 中文提示插件
 
 ### 代码
-    S.use('kg/vc-number/1.1.0/plugins/amountInWords/amountInWords,kg/vc-number/1.1.0/plugins/amountInWords/amountInWords.css',function(S, AmountInWords){
+    S.use('kg/vc-number/1.2.0/plugins/amountInWords/amountInWords,kg/vc-number/1.2.0/plugins/amountInWords/amountInWords.css',function(S, AmountInWords){
                 var number2 = new VcNumber({
                     $target: '.vc-number-ch',
                     range: 1000,
@@ -162,3 +162,4 @@ type | String|N|'inCells'| 'inCells':中文表格提示;'inWords'：中文提示
 ## changeLog
 +   2015-01-23发布1.0.0版
 +   2015-01-23发布1.1.0，解决一系列小bug
++   2015-01-27发布1.2.0，解决无线端适配问题

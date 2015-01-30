@@ -1,4 +1,4 @@
-KISSY.add('kg/vc-number/1.1.0/plugins/amountInWords/amountInWords',["node","base"],function(S ,require, exports, module) {
+KISSY.add('kg/vc-number/1.2.0/plugins/amountInWords/amountInWords',["node","base"],function(S ,require, exports, module) {
  /**
  * @fileoverview  中文提示插件
  * @author 易敛 <yilian.wj@taobao.com>
